@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymLeaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+  <meta charset="UTF-8">
+  <title>Ask</title>
+  <style>
+    a{
+    text-decoration: none;
+    color: black;
+    }
+  </style>
+</head>
+<body>
+<div style="background-color:red; padding: 11px 16px">
+  <a th:href="@{/}">Hacker News  |</a>
+  <a th:href="@{/ask}">Ask | </a>
+  <a th:href="@{/ask}">News | </a>
+  <a th:href="@{/ask}">Show | </a>
+  <a th:href="@{/questionform}">Submit</a>
+</div>
+
+<div th:each="question : ${questionList}">
+  <h2 ><a th:text="${question.title}" th:href="@{/showquestion/{id}(id=${question.id})}"></a> </h2>
+</div>
+</body>
+</html>
