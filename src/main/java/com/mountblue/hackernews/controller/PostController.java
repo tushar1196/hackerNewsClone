@@ -69,4 +69,12 @@ public class PostController {
         postService.savePost(post);
         return "redirect:/";
     }
+
+    @GetMapping("/hide/{id}")
+    public String hide(@PathVariable("id") int postId) {
+        Post post = postService.getPostById(postId);
+        post.setPoints(post.getPoints()+1);
+        postService.savePost(post);
+        return "redirect:/";
+    }
 }
