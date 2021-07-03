@@ -1,6 +1,7 @@
 package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Comment;
+import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,11 +27,16 @@ public class CommentController {
         System.out.println("inside save comment");
 
         Timestamp instant = Timestamp.from(Instant.now());
-        comment.setCreatedAt(instant);
+        if (comment.getCreatedAt() == null) {
+            comment.setCreatedAt(instant);
+        }
         comment.setUpdatedAt(instant);
+        Post post = postService.getPostById(id);
 //        comment.setQuestionId(id);
-        commentService.addComments(comment);
-        return "redirect:/showquestion/" + id;
+        post.getComments().add(comment);
+        postService.savePost(post);
+//        commentService.saveComment(comment);
+        return "redirect:/post/" + id;
     }
 
 

@@ -57,12 +57,16 @@ public class PostController {
     @GetMapping("/post/{id}")
     public String showQuestion(@PathVariable("id") Integer id, Model model) {
         Comment comment = new Comment();
-//        Post question =
-//        List<Comment> commentList = commentService.getCommentByQuestionId(id);
-        // System.out.println(question.toString());
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comment", comment);
-//        model.addAttribute("comments", commentList);
         return "viewpost";
+    }
+
+    @GetMapping("/vote/{id}")
+    public String vote(@PathVariable("id") int postId) {
+        Post post = postService.getPostById(postId);
+        post.setPoints(post.getPoints()+1);
+        postService.savePost(post);
+        return "redirect:/";
     }
 }

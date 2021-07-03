@@ -9,6 +9,7 @@
     color: black;
     }
 
+
     </style>
 </head>
 <body>
@@ -20,12 +21,16 @@
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br>
+<span th:text="${post}"></span>
+
 <div style="background-color:#f6f6ef; padding: 11px 16px">
     <h3 th:text="${post.title}" th:align="left"></h3><br>
-    <p th:text="${post.question}" th:align="left"></p><br>
-    Username: <span th:text="${post.username}"></span>
+<!--    Username: <span th:text="${post.userName}"></span>-->
+    <p th:text="${post.text}" th:align="left"></p><br>
+
     <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
 
+        <input type="text" th:field="*{id}" hidden><br><br>
         <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
         <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>
         <textarea rows="10" cols="111" th:field="*{description}"></textarea><br><br>
@@ -38,10 +43,10 @@
         <h5 th:text="${comment.createdAt}"></h5>
         <h5 th:text="${comment.description}"></h5>
 
-        <form action="#" th:action="@{/delete/{commentId}(commentId=${com.id})}" th:method="post">
+        <form action="#" th:action="@{/delete/{commentId}(commentId=${comment.id})}" th:method="post">
             <input type="submit" value="delete comment">
         </form>
-        <form action="#" th:action="@{/updateCommentForm/{commentId}(commentId=${com.id})}" th:method="get">
+        <form action="#" th:action="@{/updateCommentForm/{commentId}(commentId=${comment.id})}" th:method="get">
             <input type="submit" value="update comment">
         </form>
     </div>

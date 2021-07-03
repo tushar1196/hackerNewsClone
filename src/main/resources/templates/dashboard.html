@@ -8,17 +8,6 @@
         text-decoration: none;
         color: black;
         }
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -29,14 +18,19 @@
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br><br><br>
-<!--<span th:text="${posts}"></span>-->
 <div th:each="post,iter: ${posts}">
-    <div style="border-width:2px;border-style:solid;border-color:black;">
-        <h2><span th:text="${iter.index} +1"></span><span> : </span><a th:text="${post.title}"
-                                                                       th:href="@{'/post/' + ${post.id}}"></a>
+    <div th:if="${post.isHide} ==false" style="border-width:2px;border-style:solid;border-color:black;">
+        <h2><span th:text="${iter.index} +1"></span>
+            <span> : </span>
+            <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+               th:href="${post.url}"></a>
+            <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+               th:href="@{'/post/' + ${post.id}}"></a>
+
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{/hide}"> Hide |</a><a th:href="@{'/comment/'+${post.id}}"> Comment |</a>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
+            th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <br><br>
     </div>
     <br><br>
