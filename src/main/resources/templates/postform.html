@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymLeaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Post</title>
+    <style>
+    a{
+    text-decoration: none;
+    color: black;
+    }
+    </style>
+</head>
+<body>
+<div style="background-color:red; padding: 11px 16px">
+    <h1>Submit</h1>
+</div>
+<br>
+in add post form
+<div style="background-color:silver;padding: 11px 16px">
+    <form th:action="@{/addpost}" th:object="${post}" method="post">
+        <label>Title</label><br>
+        <input th:type="text" th:field="*{title}" placeholder="write title here" required><br>
+        <label>Url</label><br>
+        <input th:type="url" th:field="*{url}" placeholder="write title here"><br>
+        <h4>or</h4>
+        <label>Text</label><br>
+        <textarea rows="10" cols="90" th:field="*{text}"></textarea><br>
+        <input type="submit" value="submit"><br>
+        <h4>Leave url blank to submit a question for discussion. If there is no url,
+            the text (if any) will appear at the top of the thread.</h4><br>
+        <h4>If you want to ask then start title with Ask HN: ,& If you want to show then start title with Show HN:</h4>
+    </form>
+</div>
+</body>
+</html>

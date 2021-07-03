@@ -1,8 +1,7 @@
 package com.mountblue.hackernews.controller;
 
-import com.mountblue.hackernews.model.Ask;
 import com.mountblue.hackernews.model.Comment;
-import com.mountblue.hackernews.service.AskService;
+import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +10,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 public class CommentController {
@@ -21,7 +18,8 @@ public class CommentController {
     private CommentService commentService;
 
     @Autowired
-    private AskService askService;
+    private PostService postService;
+
 
     @PostMapping("/save/{id}")
     public String addComment(@PathVariable("id") Integer id, @ModelAttribute ("comment") Comment comment){
@@ -30,7 +28,7 @@ public class CommentController {
         Timestamp instant = Timestamp.from(Instant.now());
         comment.setCreatedAt(instant);
         comment.setUpdatedAt(instant);
-        comment.setQuestionId(id);
+//        comment.setQuestionId(id);
         commentService.addComments(comment);
 
         return "redirect:/showquestion/"+id;

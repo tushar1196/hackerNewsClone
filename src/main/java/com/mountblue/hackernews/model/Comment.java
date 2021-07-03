@@ -11,7 +11,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name="name")
+    @Column(name = "name")
     private String name;
 
     @Column(name = "email")
@@ -20,7 +20,7 @@ public class Comment {
     @Column(name = "points")
     private int points;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
     @Column(name = "created_at")
@@ -29,16 +29,16 @@ public class Comment {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @Column(name = "question_id")
-    private Integer questionId;
-
-    public Integer getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Integer questionId) {
-        this.questionId = questionId;
-    }
+//    @Column(name = "question_id")
+//    private Integer questionId;
+//
+//    public Integer getQuestionId() {
+//        return questionId;
+//    }
+//
+//    public void setQuestionId(Integer questionId) {
+//        this.questionId = questionId;
+//    }
 
     public int getPoints() {
         return points;

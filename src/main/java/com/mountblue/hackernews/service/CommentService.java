@@ -1,6 +1,7 @@
 package com.mountblue.hackernews.service;
 
 import com.mountblue.hackernews.model.Comment;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 

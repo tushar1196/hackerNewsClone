@@ -7,20 +7,22 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity(name="questions")
+@Entity(name = "post")
 @Table
-public class Ask {
+public class Post {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "title")
+    @Column(name = "title", length = 1000)
     private String title;
 
+    @Column(name = "url", length = 1000)
+    private String url;
 
-    @Column(name = "question")
-    private String question;
+    @Column(name = "text", length = 10000)
+    private String text;
 
     @Column(name = "user_name")
     private String userName;
@@ -28,7 +30,7 @@ public class Ask {
     @Column(name = "points")
     private int points;
 
-    @Column(name="created_at", length = 10000)
+    @Column(name = "created_at")
     @CreationTimestamp
     private Timestamp createdAt;
 
@@ -36,11 +38,9 @@ public class Ask {
     @CreationTimestamp
     private Timestamp updatedAt;
 
-
-
-   /* @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "ask_id", referencedColumnName = "id")
-    private List<Comment> comments = new ArrayList<>();*/
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", referencedColumnName = "id")
+    private List<Comment> comments = new ArrayList<>();
 
     public int getId() {
         return id;
@@ -90,35 +90,42 @@ public class Ask {
         this.updatedAt = updatedAt;
     }
 
-   /* public List<Comment> getComments() {
+    public String getText() {
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
+    }
+
+    public List<Comment> getComments() {
         return comments;
     }
 
     public void setComments(List<Comment> comments) {
         this.comments = comments;
-    }*/
-
-
-
-    public String getQuestion() {
-        return question;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
     public String toString() {
-        return "Ask{" +
+        return "Post{" +
                 "id=" + id +
                 ", title='" + title + '\'' +
-                ", question='" + question + '\'' +
+                ", url='" + url + '\'' +
+                ", text='" + text + '\'' +
                 ", userName='" + userName + '\'' +
                 ", points=" + points +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
-               // ", comments=" + comments +
+                ", comments=" + comments +
                 '}';
     }
 }
