@@ -56,6 +56,6 @@ public class CommentController {
     @PostMapping("/delete/{commentId}")
     public String deleteComment(@PathVariable("commentId") Integer commentId) {
         commentService.deleteCommentById(commentId);
-        return "redirect:/showquestion/" + commentId;
+        return "redirect:/post/" + commentId;
     }
 }

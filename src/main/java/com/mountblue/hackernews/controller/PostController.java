@@ -25,7 +25,7 @@ public class PostController {
 
     @GetMapping("/")
     public String showDashboard(Model model) {
-        System.out.println(postService.findAll());
+//        System.out.println(postService.findAll());
         model.addAttribute("posts", postService.findAll());
         return "dashboard";
     }
@@ -71,9 +71,20 @@ public class PostController {
     }
 
     @GetMapping("/hide/{id}")
-    public String hide(@PathVariable("id") int postId) {
+    public String hidePostById(@PathVariable("id") int postId) {
+        System.out.println("in hide post");
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints()+1);
+        System.out.println(post);
+        post.setHide(true);
+        System.out.println("after set trur________________________________________________________________________"+post);
+        postService.savePost(post);
+        return "redirect:/";
+    }
+
+    @GetMapping("/unhide/{id}")
+    public String unhidePostById(@PathVariable("id") int postId) {
+        Post post = postService.getPostById(postId);
+        post.setHide(false);
         postService.savePost(post);
         return "redirect:/";
     }

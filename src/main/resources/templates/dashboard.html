@@ -8,6 +8,16 @@
         text-decoration: none;
         color: black;
         }
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
@@ -29,8 +39,11 @@
 
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
-            th:href="@{'/post/'+${post.id}}"> Comment |</a>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:if="${post.isHide}==false" th:href="@{'/hide/'+${post.id}}">
+        Hide |</a>
+        <!--        <a th:unless="${post.isHide}==false" th:href="@{'/unhide/'+${post.id}}">-->
+        <!--            UnHide |</a>-->
+        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <br><br>
     </div>
     <br><br>
