@@ -8,41 +8,33 @@
     text-decoration: none;
     color: black;
     }
-  </style>
+
+
+    </style>
 </head>
 <body>
 <div style="background-color:red; padding: 11px 16px">
-    <a th:href="@{/}">Hacker News  |</a>
+    <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/ask}">News | </a>
-    <a th:href="@{/ask}">Show | </a>
-    <a th:href="@{/questionform}">Submit</a>
-</div><br>
-<div style="background-color:#f6f6ef; padding: 11px 16px">
-    <h3 th:text="${Question.title}" th:align="left"></h3><br>
-    <p th:text="${Question.question}" th:align="left"> </p><br>
+    <a th:href="@{/show}">Show | </a>
+    <a th:href="@{/postform}">Submit</a>
+</div>
+<br><br>
+<!--<div th:each="post : ${postByAskHN}">-->
+<!--    <h2><a th:text="${post.title}" th:href="@{/showquestion/${post.id}s"></a></h2>-->
+<!--</div>-->
 
-    <form action="#" th:action="@{/save/{id}(id=${Question.id})}" th:object="${comment}" th:method="post">
-
-        <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
-        <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>
-        <textarea rows="10" cols="111" th:field="*{description}"></textarea><br><br>
-
-            <input type="submit" value="save comment" size="60">
-    </form>
-
-    <div th:each="com : ${comments}">
-        <h2 th:text="${com.name}"></h2>
-        <h5 th:text="${com.createdAt}"></h5>
-        <h5 th:text="${com.description}"></h5>
-
-        <form action="#" th:action="@{/delete/{commentId}(commentId=${com.id})}" th:method="post">
-            <input type="submit" value="delete comment">
-        </form>
-        <form action="#" th:action="@{/updateCommentForm/{commentId}(commentId=${com.id})}" th:method="get">
-            <input type="submit" value="update comment">
-        </form>
+<div th:each="post,iter: ${postByShowHN}">
+    <div style="border-width:2px;border-style:solid;border-color:black;">
+        <h2><span th:text="${iter.index} +1"></span><span> : </span><a th:text="${post.title}"
+                                                                       th:href="@{'/showquestion/' + ${post.id}}"></a>
+        </h2>
+        <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{/hide}"> Hide |</a><a
+            th:href="@{'/comment/'+${post.id}}"> Comment |</a>
+        <br><br>
     </div>
+    <br><br>
 </div>
 </body>
 </html>

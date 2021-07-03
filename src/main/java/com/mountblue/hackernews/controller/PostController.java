@@ -37,21 +37,21 @@ public class PostController {
     }
 
     @GetMapping("/postform")
-    public String questionForm(Model model) {
+    public String postForm(Model model) {
         Post post = new Post();
         model.addAttribute("post", post);
         return "postform";
     }
 
     @PostMapping("/addpost")
-    public String addQuestionOrNews(@ModelAttribute("post") Post post) {
+    public String addPost(@ModelAttribute("post") Post post) {
         postService.savePost(post);
         return "redirect:/";
     }
 
     @GetMapping("/show")
     public String getAllShowHN(Model model) {
-        model.addAttribute("show", postService.getAllByShowHN());
+        model.addAttribute("postByShowHN", postService.getAllByShowHN());
         return "show";
     }
 //

@@ -22,7 +22,7 @@ public class CommentController {
 
 
     @PostMapping("/save/{id}")
-    public String addComment(@PathVariable("id") Integer id, @ModelAttribute ("comment") Comment comment){
+    public String addComment(@PathVariable("id") Integer id, @ModelAttribute("comment") Comment comment) {
         System.out.println("inside save comment");
 
         Timestamp instant = Timestamp.from(Instant.now());
@@ -30,14 +30,13 @@ public class CommentController {
         comment.setUpdatedAt(instant);
 //        comment.setQuestionId(id);
         commentService.addComments(comment);
-
-        return "redirect:/showquestion/"+id;
+        return "redirect:/showquestion/" + id;
     }
 
 
     @GetMapping("/updateCommentForm/{commentId}")
-    public String updateCommentForm(Model model,@PathVariable("commentId") Integer commentId){
-        Comment  comment=commentService.getCommentById(commentId);
+    public String updateCommentForm(Model model, @PathVariable("commentId") Integer commentId) {
+        Comment comment = commentService.getCommentById(commentId);
         model.addAttribute("comment", comment);
         return "updatecommentform";
     }
@@ -45,11 +44,12 @@ public class CommentController {
     @PostMapping("/update/{commentId}")
     public String updateComment(@PathVariable("commentId") Integer commentId, @ModelAttribute("comment") Comment comment) {
         commentService.updateCommentById(comment, commentId);
-        return "redirect:/showquestion/"+commentId;
+        return "redirect:/showquestion/" + commentId;
     }
+
     @PostMapping("/delete/{commentId}")
     public String deleteComment(@PathVariable("commentId") Integer commentId) {
         commentService.deleteCommentById(commentId);
-        return "redirect:/showquestion/"+commentId;
+        return "redirect:/showquestion/" + commentId;
     }
 }

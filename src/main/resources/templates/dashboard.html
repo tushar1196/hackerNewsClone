@@ -36,7 +36,7 @@
                                                                        th:href="@{'/showquestion/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{/hide}"> Hide |</a><a th:href="@{'/comment/'+${post.id}}"> Hide |</a>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{/hide}"> Hide |</a><a th:href="@{'/comment/'+${post.id}}"> Comment |</a>
         <br><br>
     </div>
     <br><br>
