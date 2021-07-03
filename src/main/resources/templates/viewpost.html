@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ask</title>
+    <style>
+    a{
+    text-decoration: none;
+    color: black;
+    }
+
+    </style>
+</head>
+<body>
+<div style="background-color:red; padding: 11px 16px">
+    <a th:href="@{/}">Hacker News |</a>
+    <a th:href="@{/ask}">Ask | </a>
+    <a th:href="@{/ask}">News | </a>
+    <a th:href="@{/ask}">Show | </a>
+    <a th:href="@{/postform}">Submit</a>
+</div>
+<br>
+<div style="background-color:#f6f6ef; padding: 11px 16px">
+    <h3 th:text="${post.title}" th:align="left"></h3><br>
+    <p th:text="${post.question}" th:align="left"></p><br>
+    Username: <span th:text="${post.username}"></span>
+    <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
+
+        <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
+        <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>
+        <textarea rows="10" cols="111" th:field="*{description}"></textarea><br><br>
+
+        <input type="submit" value="save comment" size="60">
+    </form>
+
+    <div th:each="comment : ${post.comments}">
+        <h2 th:text="${comment.name}"></h2>
+        <h5 th:text="${comment.createdAt}"></h5>
+        <h5 th:text="${comment.description}"></h5>
+
+        <form action="#" th:action="@{/delete/{commentId}(commentId=${com.id})}" th:method="post">
+            <input type="submit" value="delete comment">
+        </form>
+        <form action="#" th:action="@{/updateCommentForm/{commentId}(commentId=${com.id})}" th:method="get">
+            <input type="submit" value="update comment">
+        </form>
+    </div>
+</div>
+</body>
+</html>

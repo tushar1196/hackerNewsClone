@@ -54,16 +54,15 @@ public class PostController {
         model.addAttribute("postByShowHN", postService.getAllByShowHN());
         return "show";
     }
-//
-//    @GetMapping("/showquestion/{id}")
-//    public String showQuestion(@PathVariable("id") Integer id, Model model) {
-//        Comment comment = new Comment();
-//        Post question = postService.getPostById(id);
+    @GetMapping("/post/{id}")
+    public String showQuestion(@PathVariable("id") Integer id, Model model) {
+        Comment comment = new Comment();
+//        Post question =
 //        List<Comment> commentList = commentService.getCommentByQuestionId(id);
-//        // System.out.println(question.toString());
-//        model.addAttribute("Question", question);
-//        model.addAttribute("comment", comment);
+        // System.out.println(question.toString());
+        model.addAttribute("post", postService.getPostById(id));
+        model.addAttribute("comment", comment);
 //        model.addAttribute("comments", commentList);
-//        return "show";
-//    }
+        return "viewpost";
+    }
 }
