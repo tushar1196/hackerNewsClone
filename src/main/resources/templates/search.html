@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymLeaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>form</title>
+    <title>Title</title>
     <style>
         a{
         text-decoration: none;
@@ -15,23 +15,15 @@
 </head>
 <body>
 <div style="background-color:red; padding: 11px 16px">
-        <a th:href="@{/}">Hacker News |</a>
-        <a th:href="@{/ask}">Ask | </a>
-        <a th:href="@{/show}">Show | </a>
-        <a th:href="@{/postform}">Submit</a>
+    <a th:href="@{/}">Hacker News</a>
 
     <div style="float: right "><form action="#" th:action="@{/search}" th:method="get">
         <input type="text" th:name="search" placeholder="search" required>
-    <input type="submit" value="search">
+        <input type="submit" value="search">
     </form></div>
 
 </div>
-<br><br><br>
-</div>
-<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">Sort by
-    published date</a>
-</div>
-<div th:each="post: ${listOfPost}">
+<div th:each="post: ${postslist}">
     <div th:if="${post.isHide} ==false" >
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
@@ -45,16 +37,6 @@
         <br><br>
     </div>
     <br><br>
-</div>
-<div th:if="${totalPages > 1}">
-         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${currentPage !=i}"
-               th:href="@{'/page/'+ ${i} + '?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
-            <span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;&nbsp;
-        </span>
-    <a th:if="${currentPage < totalPages}"
-       th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">next</a>
-    <span th:unless="${currentPage < totalPages}">Last</span>
 </div>
 </body>
 </html>

@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 public class PostController {
@@ -20,14 +22,6 @@ public class PostController {
 
     @Autowired
     private CommentService commentService;
-
-    /*@GetMapping("/")
-    public String showDashboard(Model model) {
-        //System.out.println(postService.findAll());
-        model.addAttribute("posts", postService.findAll());
-        return "dashboard";
-    }*/
-
 
     @GetMapping("/")
     public String home(Model model) {
@@ -77,7 +71,6 @@ public class PostController {
     @GetMapping("/hide/{id}")
     public String hide(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
-//        post.setPoints(post.getPoints()+1);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -86,7 +79,7 @@ public class PostController {
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDirection") String sortDirection, Model model) {
-        int pageSize = 1;
+        int pageSize = 3;
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
@@ -101,4 +94,12 @@ public class PostController {
 
         return "dashboard";
     }
+
+    @GetMapping("/search")
+    public String search(@RequestParam("search") String keyWord, Model model){
+       List<Post> postsList= postService.getPostByKeyWord(keyWord);
+        model.addAttribute("postslist", postsList);
+        return "search";
+    }
+
 }

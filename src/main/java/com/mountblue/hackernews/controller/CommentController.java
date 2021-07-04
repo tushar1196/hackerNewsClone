@@ -40,22 +40,26 @@ public class CommentController {
     }
 
 
-    @GetMapping("/updateCommentForm/{commentId}")
-    public String updateCommentForm(Model model, @PathVariable("commentId") Integer commentId) {
+    @PostMapping("/updateCommentForm/{postId}")
+    public String updateCommentForm(Model model, @PathVariable("postId") Integer postId, @RequestParam("commentId") Integer commentId) {
         Comment comment = commentService.getCommentById(commentId);
         model.addAttribute("comment", comment);
+        model.addAttribute("postId", postId);
         return "updatecommentform";
     }
 
-    @PostMapping("/update/{commentId}")
-    public String updateComment(@PathVariable("commentId") Integer commentId, @ModelAttribute("comment") Comment comment) {
-        commentService.updateCommentById(comment, commentId);
-        return "redirect:/showquestion/" + commentId;
+    @PostMapping("/update/{postId}")
+    public String updateComment(@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment) {
+        System.out.println("inside update handler");
+
+        commentService.updateCommentById(comment, comment.getId());
+
+        return "redirect:/post/" + postId;
     }
 
     @PostMapping("/delete/{commentId}")
     public String deleteComment(@PathVariable("commentId") Integer commentId) {
         commentService.deleteCommentById(commentId);
-        return "redirect:/showquestion/" + commentId;
+        return "redirect:/post/" + commentId;
     }
 }

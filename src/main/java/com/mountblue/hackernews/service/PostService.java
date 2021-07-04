@@ -18,5 +18,7 @@ public interface PostService {
 
     List<Post> findAll();
     public Page<Post> findPaginated(Integer pageNo, Integer pageSize, String sortingField, String sortingOrder);
+    public List<Post> getPostByKeyWord(String keyWord);
+    // public List<Post> getByKeyWord(String keyWord);
 
 }

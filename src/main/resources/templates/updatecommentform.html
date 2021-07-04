@@ -21,17 +21,27 @@
             width: 100%;
         }
 
+         a{
+        text-decoration: none;
+        color: black;
+        }
     </style>
 </head>
 <body>
-<div style="background-color:khaki" align="center"><h1>Update</h1></div>
+<div style="background-color:red; padding: 11px 16px">
+    <a th:href="@{/}">Hacker News |</a>
+    <a th:href="@{/ask}">Ask | </a>
+    <a th:href="@{/ask}">News | </a>
+    <a th:href="@{/ask}">Show | </a>
+    <a th:href="@{/postform}">Submit</a>
+</div>
+<br>
 <div th:align="left">
-    <form action="#" th:action="@{/update/{commentId}(commentId=${comment.id})}" th:object="${comment}"
-          th:method="POST">
+    <form action="#" th:action="@{/update/${postId}" th:object="${comment}" th:method="POST">
         <input type="hidden" th:field="*{id}">
-        <input type="text" th:field="*{name}" size="150" required><br><br>
-        <input type="email" th:field="*{email}" size="150" required><br><br>
-        <textarea rows="10" cols="170" th:field="*{description}"></textarea><br><br>
+        <input type="text" th:field="*{name}" size="100" required><br><br>
+        <input type="email" th:field="*{email}" size="100" required><br><br>
+        <textarea rows="10" cols="150" th:field="*{description}"></textarea><br><br>
         <input type="submit" value="Update Comment">
     </form>
 </div>
