@@ -43,10 +43,10 @@
         <h5 th:text="${comment.createdAt}"></h5>
         <h5 th:text="${comment.description}"></h5>
 
-        <form action="#" th:action="@{/delete/{commentId}(commentId=${comment.id})}" th:method="post">
+        <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
             <input type="submit" value="delete comment">
         </form>
-        <form action="#" th:action="@{/updateCommentForm/{commentId}(commentId=${comment.id})}" th:method="get">
+        <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
             <input type="submit" value="update comment">
         </form>
     </div>

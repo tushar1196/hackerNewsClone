@@ -10,9 +10,11 @@ import java.util.List;
 @Repository
 public interface PostRepository extends JpaRepository<Post, Integer> {
 
-    @Query(value = "select * from post where title like 'Ask HN:%'",nativeQuery = true)
+    @Query(value = "select * from post where title like 'Ask HN:%'", nativeQuery = true)
     List<Post> findAllByAskHN();
 
-    @Query(value = "select * from post where title like 'Show HN:%'",nativeQuery = true)
+    @Query(value = "select * from post where title like 'Show HN:%'", nativeQuery = true)
     List<Post> findAllByShowHN();
+
+    Post findById(int id);
 }

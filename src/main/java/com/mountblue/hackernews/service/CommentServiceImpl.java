@@ -2,18 +2,20 @@ package com.mountblue.hackernews.service;
 
 import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.repository.CommentRepository;
+import com.mountblue.hackernews.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.List;
 
 @Service
-public class CommentServiceImpl implements CommentService{
+public class CommentServiceImpl implements CommentService {
 
     @Autowired
     private CommentRepository commentRepository;
+    @Autowired
+    private PostRepository postRepository;
 
     @Override
     public void saveComment(Comment comment) {
@@ -21,25 +23,21 @@ public class CommentServiceImpl implements CommentService{
     }
 
     @Override
-    public List<Comment> getCommentByQuestionId(Integer questionId) {
-        return commentRepository.getAllByQuestionId(questionId);
-    }
-
-    @Override
     public void updateCommentById(Comment comment, Integer commentId) {
         Timestamp instant = Timestamp.from(Instant.now());
-        commentRepository.updateCommentByCommentId(comment.getName(), comment.getEmail(), comment.getDescription(),
-                instant, commentId);
+        comment.setUpdatedAt(instant);
+        commentRepository.save(comment);
     }
 
     @Override
     public Comment getCommentById(Integer commentId) {
-        return commentRepository.findByCommentId(commentId);
+        Comment comment = commentRepository.findById(commentId).get();
+        return comment;
     }
 
     @Override
     public void deleteCommentById(Integer id) {
-        Comment comment=commentRepository.findByCommentId(id);
+        Comment comment = commentRepository.findById(id).get();
         commentRepository.delete(comment);
     }
 }

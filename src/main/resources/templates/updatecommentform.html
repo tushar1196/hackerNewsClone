@@ -26,7 +26,7 @@
 <body>
 <div style="background-color:khaki" align="center"><h1>Update</h1></div>
 <div th:align="left">
-    <form action="#" th:action="@{/update/{commentId}(commentId=${comment.id})}" th:object="${comment}"
+    <form action="#" th:action="@{'/update/'+${comment.id}+'/'+${postId}}" th:object="${comment}"
           th:method="POST">
         <input type="hidden" th:field="*{id}">
         <input type="text" th:field="*{name}" size="150" required><br><br>

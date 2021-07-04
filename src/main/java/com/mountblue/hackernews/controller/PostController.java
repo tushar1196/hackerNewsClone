@@ -21,18 +21,6 @@ public class PostController {
     @Autowired
     private CommentService commentService;
 
-    /*@GetMapping("/")
-    public String showDashboard(Model model) {
-<<<<<<< HEAD
-//        System.out.println(postService.findAll());
-=======
-        //System.out.println(postService.findAll());
->>>>>>> 8334a205387524db838e41136fcb7a572004e0a8
-        model.addAttribute("posts", postService.findAll());
-        return "dashboard";
-    }*/
-
-
     @GetMapping("/")
     public String home(Model model) {
         return paginatedPage(1, "createdAt", "asc", model);
@@ -93,7 +81,6 @@ public class PostController {
     public String unhidePostById(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
         post.setHide(false);
-//        post.setPoints(post.getPoints()+1);
         postService.savePost(post);
         return "redirect:/";
     }

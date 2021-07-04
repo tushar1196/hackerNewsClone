@@ -29,17 +29,6 @@ public class Comment {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-//    @Column(name = "question_id")
-//    private Integer questionId;
-//
-//    public Integer getQuestionId() {
-//        return questionId;
-//    }
-//
-//    public void setQuestionId(Integer questionId) {
-//        this.questionId = questionId;
-//    }
-
     public int getPoints() {
         return points;
     }
