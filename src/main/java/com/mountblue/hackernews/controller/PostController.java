@@ -82,7 +82,6 @@ public class PostController {
     public String hidePostById(@PathVariable("id") int postId) {
         System.out.println("in hide post");
         Post post = postService.getPostById(postId);
-<<<<<<< HEAD
         System.out.println(post);
         post.setHide(true);
         System.out.println("after set trur________________________________________________________________________"+post);
@@ -94,9 +93,7 @@ public class PostController {
     public String unhidePostById(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
         post.setHide(false);
-=======
 //        post.setPoints(post.getPoints()+1);
->>>>>>> 8334a205387524db838e41136fcb7a572004e0a8
         postService.savePost(post);
         return "redirect:/";
     }
