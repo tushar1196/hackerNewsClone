@@ -52,6 +52,7 @@ public class PostController {
         model.addAttribute("postByShowHN", postService.getAllByShowHN());
         return "show";
     }
+
     @GetMapping("/post/{id}")
     public String showQuestion(@PathVariable("id") Integer id, Model model) {
         Comment comment = new Comment();
@@ -63,7 +64,7 @@ public class PostController {
     @GetMapping("/vote/{id}")
     public String vote(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints()+1);
+        post.setPoints(post.getPoints() + 1);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -74,7 +75,7 @@ public class PostController {
         Post post = postService.getPostById(postId);
         System.out.println(post);
         post.setHide(true);
-        System.out.println("after set trur________________________________________________________________________"+post);
+        System.out.println("after set trur________________________________________________________________________" + post);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -96,7 +97,7 @@ public class PostController {
 
     @GetMapping("/updatepost/{postId}")
     public String updatePostById(@PathVariable("postId") int postId, Model model) {
-        model.addAttribute("post",postService.getPostById(postId));
+        model.addAttribute("post", postService.getPostById(postId));
         return "postform";
     }
 
@@ -105,7 +106,7 @@ public class PostController {
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDirection") String sortDirection, Model model) {
-        int pageSize = 3;
+        int pageSize = 1;
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
@@ -122,8 +123,8 @@ public class PostController {
     }
 
     @GetMapping("/search")
-    public String search(@RequestParam("search") String keyWord, Model model){
-       List<Post> postsList= postService.getPostByKeyWord(keyWord);
+    public String search(@RequestParam("search") String keyWord, Model model) {
+        List<Post> postsList = postService.getPostByKeyWord(keyWord);
         model.addAttribute("postslist", postsList);
         return "search";
     }
