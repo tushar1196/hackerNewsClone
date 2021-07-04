@@ -35,38 +35,25 @@ public class CommentController {
         return "redirect:/post/" + id;
     }
 
-    @PostMapping("/updateCommentForm/{postId}")
-    public String updateCommentForm(Model model, @PathVariable("postId") Integer postId, @RequestParam("commentId")
-            Integer commentId) {
+    @GetMapping("/updateCommentForm/{commentId}/{postId}")
+    public String updateCommentForm(Model model, @PathVariable("commentId") Integer commentId,
+                                    @PathVariable("postId") int postId) {
+        Comment comment = commentService.getCommentById(commentId);
+        model.addAttribute("comment", comment);
+        model.addAttribute("postId", postId);
+        return "updatecommentform";
+    }
 
-        /*@GetMapping("/updateCommentForm/{commentId}/{postId}")
-        public String updateCommentForm (Model model, @PathVariable("commentId") Integer commentId,
-        @PathVariable("postId") int postId){*/
-            Comment comment = commentService.getCommentById(commentId);
-            model.addAttribute("comment", comment);
-            model.addAttribute("postId", postId);
-            return "updatecommentform";
-        }
-
-    @PostMapping("/update/{postId}")
-    public String updateComment (@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment)
-    {
-       System.out.println("inside update handler");
-
-       commentService.updateCommentById(comment, comment.getId());
-
-            /*@PostMapping("/update/{commentId}/{postId}")
-            public String updateComment (@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer
-            postId,
-                    @ModelAttribute("comment") Comment comment){*/
-            //commentService.updateCommentById(comment, commentId);
-       return "redirect:/post/" + postId;
+    @PostMapping("/update/{commentId}/{postId}")
+    public String updateComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer
+            postId, @ModelAttribute("comment") Comment comment) {
+        commentService.updateCommentById(comment, commentId);
+        return "redirect:/post/" + postId;
     }
 
     @PostMapping("/delete/{commentId}/{postId}")
-    public String deleteComment (@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId){
-            commentService.deleteCommentById(commentId);
-           // return "redirect:/post/" + commentId;
-            return "redirect:/post/" + postId;
+    public String deleteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+        commentService.deleteCommentById(commentId);
+        return "redirect:/post/" + postId;
     }
 }
