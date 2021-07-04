@@ -17,6 +17,8 @@ public interface PostService {
     List<Post> getAllByShowHN();
 
     List<Post> findAll();
+
     public Page<Post> findPaginated(Integer pageNo, Integer pageSize, String sortingField, String sortingOrder);
 
+    void deletePostById(int postId);
 }

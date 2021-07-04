@@ -51,4 +51,9 @@ public class PostServiceImpl implements PostService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
         return this.postRepository.findAll(pageable);
     }
+
+    @Override
+    public void deletePostById(int postId) {
+        postRepository.deleteById(postId);
+    }
 }

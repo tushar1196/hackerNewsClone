@@ -85,6 +85,19 @@ public class PostController {
         return "redirect:/";
     }
 
+    @GetMapping("/deletepost/{postId}")
+    public String deletePostById(@PathVariable("postId") int postId) {
+        postService.deletePostById(postId);
+        return "redirect:/";
+    }
+
+    @GetMapping("/updatepost/{postId}")
+    public String updatePostById(@PathVariable("postId") int postId, Model model) {
+        model.addAttribute("post",postService.getPostById(postId));
+        return "postform";
+    }
+
+
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
