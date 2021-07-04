@@ -42,12 +42,18 @@
         <h5 th:text="${comment.createdAt}"></h5>
         <h5 th:text="${comment.description}"></h5>
 
-        <form action="#" th:action="@{/delete/{postId}(postId=${post.id})}" th:method="post">
+        <!--form action="#" th:action="@{/delete/{postId}(postId=${post.id})}" th:method="post">
             <input type="hidden" th:field="*{id}" name="commentId">
             <input type="submit" value="delete comment">
+        </form-->
+        <!--form action="#" th:action="@{/updateCommentForm/{postId}(postId=${post.id})}" th:method="post">
+            <input type="hidden" value="{comment.id}" name="commentId"-->
+
+        <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
+            <input type="submit" value="delete comment">
         </form>
-        <form action="#" th:action="@{/updateCommentForm/{postId}(postId=${post.id})}" th:method="post">
-            <input type="hidden" value="{comment.id}" name="commentId">
+        <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
+
             <input type="submit" value="update comment">
         </form>
     </div>

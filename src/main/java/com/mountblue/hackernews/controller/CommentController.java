@@ -21,45 +21,52 @@ public class CommentController {
     @Autowired
     private PostService postService;
 
-
     @PostMapping("/save/{id}")
     public String addComment(@PathVariable("id") Integer id, @ModelAttribute("comment") Comment comment) {
         System.out.println("inside save comment");
-
         Timestamp instant = Timestamp.from(Instant.now());
         if (comment.getCreatedAt() == null) {
             comment.setCreatedAt(instant);
         }
         comment.setUpdatedAt(instant);
         Post post = postService.getPostById(id);
-//        comment.setQuestionId(id);
         post.getComments().add(comment);
         postService.savePost(post);
-//        commentService.saveComment(comment);
         return "redirect:/post/" + id;
     }
 
-
     @PostMapping("/updateCommentForm/{postId}")
-    public String updateCommentForm(Model model, @PathVariable("postId") Integer postId, @RequestParam("commentId") Integer commentId) {
-        Comment comment = commentService.getCommentById(commentId);
-        model.addAttribute("comment", comment);
-        model.addAttribute("postId", postId);
-        return "updatecommentform";
-    }
+    public String updateCommentForm(Model model, @PathVariable("postId") Integer postId, @RequestParam("commentId")
+            Integer commentId) {
+
+        /*@GetMapping("/updateCommentForm/{commentId}/{postId}")
+        public String updateCommentForm (Model model, @PathVariable("commentId") Integer commentId,
+        @PathVariable("postId") int postId){*/
+            Comment comment = commentService.getCommentById(commentId);
+            model.addAttribute("comment", comment);
+            model.addAttribute("postId", postId);
+            return "updatecommentform";
+        }
 
     @PostMapping("/update/{postId}")
-    public String updateComment(@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment) {
-        System.out.println("inside update handler");
+    public String updateComment (@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment)
+    {
+       System.out.println("inside update handler");
 
-        commentService.updateCommentById(comment, comment.getId());
+       commentService.updateCommentById(comment, comment.getId());
 
-        return "redirect:/post/" + postId;
+            /*@PostMapping("/update/{commentId}/{postId}")
+            public String updateComment (@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer
+            postId,
+                    @ModelAttribute("comment") Comment comment){*/
+            //commentService.updateCommentById(comment, commentId);
+       return "redirect:/post/" + postId;
     }
 
-    @PostMapping("/delete/{commentId}")
-    public String deleteComment(@PathVariable("commentId") Integer commentId) {
-        commentService.deleteCommentById(commentId);
-        return "redirect:/post/" + commentId;
+    @PostMapping("/delete/{commentId}/{postId}")
+    public String deleteComment (@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId){
+            commentService.deleteCommentById(commentId);
+           // return "redirect:/post/" + commentId;
+            return "redirect:/post/" + postId;
     }
 }

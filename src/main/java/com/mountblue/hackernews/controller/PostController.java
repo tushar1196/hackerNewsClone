@@ -69,11 +69,37 @@ public class PostController {
     }
 
     @GetMapping("/hide/{id}")
-    public String hide(@PathVariable("id") int postId) {
+    public String hidePostById(@PathVariable("id") int postId) {
+        System.out.println("in hide post");
         Post post = postService.getPostById(postId);
+        System.out.println(post);
+        post.setHide(true);
+        System.out.println("after set trur________________________________________________________________________"+post);
         postService.savePost(post);
         return "redirect:/";
     }
+
+    @GetMapping("/unhide/{id}")
+    public String unhidePostById(@PathVariable("id") int postId) {
+        Post post = postService.getPostById(postId);
+
+        post.setHide(false);
+        postService.savePost(post);
+        return "redirect:/";
+    }
+
+    @GetMapping("/deletepost/{postId}")
+    public String deletePostById(@PathVariable("postId") int postId) {
+        postService.deletePostById(postId);
+        return "redirect:/";
+    }
+
+    @GetMapping("/updatepost/{postId}")
+    public String updatePostById(@PathVariable("postId") int postId, Model model) {
+        model.addAttribute("post",postService.getPostById(postId));
+        return "postform";
+    }
+
 
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,

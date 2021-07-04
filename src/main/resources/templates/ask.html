@@ -19,18 +19,15 @@
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br><br>
-<!--<div th:each="post : ${postByAskHN}">-->
-<!--    <h2><a th:text="${post.title}" th:href="@{/showquestion/${post.id}s"></a></h2>-->
-<!--</div>-->
 
-<div th:each="post,iter: ${postByAskHN}">
-    <div th:if="${post.isHide==false}" style="border-width:2px;border-style:solid;border-color:black;">
-        <h2><span th:text="${iter.index} +1"></span><span> : </span><a th:text="${post.title}"
-                                                                       th:href="@{'/showquestion/' + ${post.id}}"></a>
+<div th:each="post: ${postByAskHN}">
+    <div th:if="${post.isHide==false}" >
+        <h2><a th:text="${post.title}" th:href="@{'/showquestion/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
         <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
-            th:href="@{'/post/'+${post.id}}"> Comment |</a>
+            th:href="@{'/post/'+${post.id}}"> Comment |</a><a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a><a
+            th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
         <br><br>
     </div>
     <br><br>

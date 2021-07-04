@@ -56,4 +56,9 @@ public class PostServiceImpl implements PostService {
     public List<Post> getPostByKeyWord(String keyWord) {
         return this.postRepository.findAllByKeyWord(keyWord);
     }
+
+    @Override
+    public void deletePostById(int postId) {
+        postRepository.deleteById(postId);
+    }
 }

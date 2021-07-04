@@ -32,7 +32,7 @@
     published date</a>
 </div>
 <div th:each="post: ${listOfPost}">
-    <div th:if="${post.isHide} ==false" >
+    <div th:if="${post.isHide} ==false">
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="${post.url}"></a>
@@ -40,8 +40,10 @@
                th:href="@{'/post/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
-            th:href="@{'/post/'+${post.id}}"> Comment |</a>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:if="${post.isHide}==false" th:href="@{'/hide/'+${post.id}}">
+        Hide |</a>
+        <a th:href="@{'/post/'+${post.id}}"> Comment |</a><a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a><a
+            th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
         <br><br>
     </div>
     <br><br>
