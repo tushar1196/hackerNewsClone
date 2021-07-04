@@ -5,12 +5,10 @@ import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,11 +21,17 @@ public class PostController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("/")
+    /*@GetMapping("/")
     public String showDashboard(Model model) {
-        System.out.println(postService.findAll());
+        //System.out.println(postService.findAll());
         model.addAttribute("posts", postService.findAll());
         return "dashboard";
+    }*/
+
+
+    @GetMapping("/")
+    public String home(Model model) {
+        return paginatedPage(1, "createdAt", "asc", model);
     }
 
     @GetMapping("/ask")
@@ -73,8 +77,28 @@ public class PostController {
     @GetMapping("/hide/{id}")
     public String hide(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints()+1);
+//        post.setPoints(post.getPoints()+1);
         postService.savePost(post);
         return "redirect:/";
+    }
+
+    @GetMapping("/page/{pageNo}")
+    public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
+                                @RequestParam("sortField") String sortField,
+                                @RequestParam("sortDirection") String sortDirection, Model model) {
+        int pageSize = 1;
+
+        Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
+        List<Post> postsList = page.getContent();
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDirection", sortDirection);
+        model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
+        model.addAttribute("listOfPost", postsList);
+
+        return "dashboard";
     }
 }

@@ -18,15 +18,17 @@
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br><br><br>
-<div th:each="post,iter: ${posts}">
-    <div th:if="${post.isHide} ==false" style="border-width:2px;border-style:solid;border-color:black;">
-        <h2><span th:text="${iter.index} +1"></span>
-            <span> : </span>
+</div>
+<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">Sort by
+    published date</a>
+</div>
+<div th:each="post: ${listOfPost}">
+    <div th:if="${post.isHide} ==false" >
+        <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="${post.url}"></a>
             <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="@{'/post/' + ${post.id}}"></a>
-
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
         <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
@@ -35,5 +37,17 @@
     </div>
     <br><br>
 </div>
+<div th:if="${totalPages > 1}">
+         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+            <a th:if="${currentPage !=i}"
+               th:href="@{'/page/'+ ${i} + '?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
+            <span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;&nbsp;
+        </span>
+    <a th:if="${currentPage < totalPages}"
+       th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">next</a>
+    <span th:unless="${currentPage < totalPages}">Last</span>
+
+</div>
+
 </body>
 </html>
