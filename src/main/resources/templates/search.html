@@ -17,13 +17,26 @@
 <div style="background-color:red; padding: 11px 16px">
     <a th:href="@{/}">Hacker News</a>
 
-    <div style="float: right "><form action="#" th:action="@{/search}" th:method="get">
+    <!--div style="float: right "><form action="#" th:action="@{/search}" th:method="get">
         <input type="text" th:name="search" placeholder="search" required>
         <input type="submit" value="search">
-    </form></div>
+    </form></div-->
 
 </div>
-<div th:each="post: ${postslist}">
+<div>
+    <form action="#" th:action="@{/filter}" method="post">
+            <label>Search:</label>
+            <input type="hidden"  th:name="search" th:value="${search}">
+            <select name="select">
+
+                <option th:value="stories">stories</option>
+                <option th:value="comments">comments</option>
+
+            </select>
+        <input type="submit" value="Apply">
+    </form>
+</div>
+    <div th:each="post: ${postslist}">
     <div th:if="${post.isHide} ==false" >
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
@@ -38,5 +51,12 @@
     </div>
     <br><br>
 </div>
+</div>
+    <div th:each="comm: ${comments}">
+        <p th:text="${comm.description}"></p>
+
+    </div>
+
+
 </body>
 </html>

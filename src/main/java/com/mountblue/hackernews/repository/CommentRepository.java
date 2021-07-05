@@ -15,5 +15,8 @@ import java.util.List;
 @Transactional
 public interface CommentRepository extends JpaRepository<Comment,Integer> {
 
-    Comment findById(int commentId );
+   // Comment findById(int commentId );
+
+    @Query(value = "select * from comments where description LIKE %?1%", nativeQuery = true)
+    public List<Comment> findCommentByKeyWord(String keyWord);
 }
