@@ -11,20 +11,24 @@
         div{
         display: float-right;
         }
+
     </style>
 </head>
 <body>
 <div style="background-color:red; padding: 11px 16px">
-        <a th:href="@{/}">Hacker News |</a>
-        <a th:href="@{/ask}">Ask | </a>
-        <a th:href="@{/show}">Show | </a>
-        <a th:href="@{/postform}">Submit</a>
+    <a th:href="@{/}">Hacker News |</a>
+    <a th:href="@{/ask}">Ask | </a>
+    <a th:href="@{/show}">Show | </a>
+    <a th:href="@{/postform}">Submit |</a>
+    <a th:href="@{/login}">Login |</a>
+    <a th:href="@{/logout}">Logout</a>
 
-    <div style="float: right "><form action="#" th:action="@{/search}" th:method="get">
-        <input type="text" th:name="search" placeholder="search" required>
-    <input type="submit" value="search">
-    </form></div>
-
+    <div style="float: right ">
+        <form action="#" th:action="@{/search}" th:method="get">
+            <input type="text" th:name="search" placeholder="search" required>
+            <input type="submit" value="search">
+        </form>
+    </div>
 </div>
 <br><br><br>
 </div>
