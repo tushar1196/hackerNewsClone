@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -39,5 +40,10 @@ public class CommentServiceImpl implements CommentService {
     public void deleteCommentById(Integer id) {
         Comment comment = commentRepository.findById(id).get();
         commentRepository.delete(comment);
+    }
+
+    @Override
+    public List<Comment> getCommentBySearch(String search) {
+        return commentRepository.findCommentByKeyWord(search);
     }
 }

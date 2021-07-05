@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -75,7 +76,7 @@ public class PostController {
         Post post = postService.getPostById(postId);
         System.out.println(post);
         post.setHide(true);
-        System.out.println("after set trur________________________________________________________________________" + post);
+        //System.out.println("after set t_____________________________________________" + post);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -125,7 +126,36 @@ public class PostController {
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
         List<Post> postsList = postService.getPostByKeyWord(keyWord);
+        List<String> stories= new ArrayList<>();
+        stories.add("comments");
+        stories.add("stories");
+        model.addAttribute("search", keyWord);
+        model.addAttribute("searchtype", stories);
         model.addAttribute("postslist", postsList);
+        return "search";
+    }
+
+    @PostMapping("/filter")
+    public String filter(@RequestParam("select") String selected, @RequestParam("search") String search, Model model){
+        List<Post> postsList = postService.getPostByKeyWord(search);
+        List<String> stories= new ArrayList<>();
+        stories.add("comments");
+        stories.add("stories");
+
+        if(selected.equals("comments")){
+           List<Comment> commentsList=commentService.getCommentBySearch(search);
+            model.addAttribute("search", search);
+            model.addAttribute("searchtype", stories);
+           model.addAttribute("comments", commentsList);
+       }
+       else if (selected.equals("stories")){
+
+
+           model.addAttribute("search", search);
+           model.addAttribute("searchtype", stories);
+           model.addAttribute("postslist", postsList);
+       }
+        System.out.println(selected+"--------------"+search);
         return "search";
     }
 

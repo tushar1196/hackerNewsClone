@@ -9,4 +9,5 @@ public interface CommentService {
     public void updateCommentById(Comment comment, Integer commentId);
     public Comment getCommentById(Integer commentId);
     public void deleteCommentById(Integer id);
+    public List<Comment> getCommentBySearch(String search);
 }
