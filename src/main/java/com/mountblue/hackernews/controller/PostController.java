@@ -55,7 +55,7 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String showQuestion(@PathVariable("id") Integer id, Model model) {
+    public String showPost(@PathVariable("id") Integer id, Model model) {
         Comment comment = new Comment();
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comment", comment);
