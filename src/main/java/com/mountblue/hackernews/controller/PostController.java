@@ -2,6 +2,7 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.model.Comment;
+import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,6 +65,7 @@ public class PostController {
     @GetMapping("/vote/{id}")
     public String vote(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
+//        ------------------------------------------------------vote user feature
         post.setPoints(post.getPoints() + 1);
         postService.savePost(post);
         return "redirect:/";
