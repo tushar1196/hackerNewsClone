@@ -5,8 +5,10 @@ import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
+import com.mountblue.hackernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,9 +26,12 @@ public class PostController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/")
-    public String home(Model model) {
-        return paginatedPage(1, "createdAt", "asc", model);
+    public String home(Model model, Authentication authentication) {
+        return paginatedPage(1, "createdAt", "asc", model, authentication);
     }
 
     @GetMapping("/ask")
@@ -63,11 +68,28 @@ public class PostController {
     }
 
     @GetMapping("/vote/{id}")
-    public String vote(@PathVariable("id") int postId) {
+    public String vote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
-//        ------------------------------------------------------vote user feature
+//        User user = userService.findByEmail(authentication.getName());
         post.setPoints(post.getPoints() + 1);
+//        user.setVoted(true);
+//        userService.saveUser(user);
         postService.savePost(post);
+        System.out.println("after voting ihgyuvshdbidygfyvuhbewisdga8vydbfi8geqhhgsyvaxagsfvdbohcsgvdbsho" +
+                "==================" + post + "------------------------" /*+ user*/);
+        return "redirect:/";
+    }
+
+    @GetMapping("/unvote/{id}")
+    public String unVote(@PathVariable("id") int postId, Authentication authentication) {
+        Post post = postService.getPostById(postId);
+//        User user = userService.findByEmail(authentication.getName());
+        post.setPoints(post.getPoints() - 1);
+//        user.setVoted(true);
+//        userService.saveUser(user);
+        postService.savePost(post);
+        System.out.println("after voting ihgyuvshdbidygfyvuhbewisdga8vydbfi8geqhhgsyvaxagsfvdbohcsgvdbsho" +
+                "==================" + post + "------------------------" +"" /*user*/);
         return "redirect:/";
     }
 
@@ -107,11 +129,15 @@ public class PostController {
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDirection") String sortDirection, Model model) {
+                                @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication) {
         int pageSize = 1;
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
+        if (authentication != null) {
+            User user = userService.findByEmail(authentication.getName());
+            model.addAttribute(user);
+        }
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());

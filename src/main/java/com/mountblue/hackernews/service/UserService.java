@@ -11,9 +11,7 @@ public interface UserService {
 
     public void saveUser(User user);
 
-//    public User findByEmail(String email) {
-//        return userRepository.findByEmail(email);
-//    }
+    public User findByEmail(String email);
 
 //    public User getLoggedUser() {
 //        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
