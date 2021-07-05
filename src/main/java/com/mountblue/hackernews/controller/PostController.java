@@ -49,7 +49,10 @@ public class PostController {
     }
 
     @PostMapping("/addpost")
-    public String addPost(@ModelAttribute("post") Post post) {
+    public String addPost(@ModelAttribute("post") Post post ,Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        System.out.println(user+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        post.setUserName(user.getName());
         postService.savePost(post);
         return "redirect:/";
     }
@@ -90,7 +93,7 @@ public class PostController {
 //        userService.saveUser(user);
         postService.savePost(post);
         System.out.println("after voting ihgyuvshdbidygfyvuhbewisdga8vydbfi8geqhhgsyvaxagsfvdbohcsgvdbsho" +
-                "==================" + post + "------------------------" +"" /*user*/);
+                "==================" + post + "------------------------" + "" /*user*/);
         return "redirect:/";
     }
 
@@ -131,14 +134,11 @@ public class PostController {
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication) {
-        int pageSize = 1;
+        int pageSize = 10;
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
-        if (authentication != null) {
-            User user = userService.findByEmail(authentication.getName());
-            model.addAttribute(user);
-        }
+
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -148,13 +148,24 @@ public class PostController {
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         model.addAttribute("listOfPost", postsList);
 
+        if (authentication != null) {
+            User user = userService.findByEmail(authentication.getName());
+            if (user.getRole().equals("ROLE_ADMIN")) {
+                model.addAttribute("user",user);
+                return "admindashboard";
+            } else if (user.getRole().equals("ROLE_USER")) {
+                model.addAttribute("user",user);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+user.getName());
+                return "userdashboard";
+            }
+        }
         return "dashboard";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
         List<Post> postsList = postService.getPostByKeyWord(keyWord);
-        List<String> stories= new ArrayList<>();
+        List<String> stories = new ArrayList<>();
         stories.add("comments");
         stories.add("stories");
         model.addAttribute("search", keyWord);
@@ -164,26 +175,25 @@ public class PostController {
     }
 
     @PostMapping("/filter")
-    public String filter(@RequestParam("select") String selected, @RequestParam("search") String search, Model model){
+    public String filter(@RequestParam("select") String selected, @RequestParam("search") String search, Model model) {
         List<Post> postsList = postService.getPostByKeyWord(search);
-        List<String> stories= new ArrayList<>();
+        List<String> stories = new ArrayList<>();
         stories.add("comments");
         stories.add("stories");
 
-        if(selected.equals("comments")){
-           List<Comment> commentsList=commentService.getCommentBySearch(search);
+        if (selected.equals("comments")) {
+            List<Comment> commentsList = commentService.getCommentBySearch(search);
             model.addAttribute("search", search);
             model.addAttribute("searchtype", stories);
-           model.addAttribute("comments", commentsList);
-       }
-       else if (selected.equals("stories")){
+            model.addAttribute("comments", commentsList);
+        } else if (selected.equals("stories")) {
 
 
-           model.addAttribute("search", search);
-           model.addAttribute("searchtype", stories);
-           model.addAttribute("postslist", postsList);
-       }
-        System.out.println(selected+"--------------"+search);
+            model.addAttribute("search", search);
+            model.addAttribute("searchtype", stories);
+            model.addAttribute("postslist", postsList);
+        }
+        System.out.println(selected + "--------------" + search);
         return "search";
     }
 
