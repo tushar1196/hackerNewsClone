@@ -30,8 +30,8 @@ public class Post {
     @Column(name = "points")
     private int points;
 
-    @Column(name = "isHide")
-    private boolean isHide;
+//    @Column(name = "isHide")
+//    private boolean isHide;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -44,6 +44,13 @@ public class Post {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", referencedColumnName = "id")
     private List<Comment> comments = new ArrayList<>();
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "post_users",
+            joinColumns = {@JoinColumn(name = "post_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private List<User> users;
 
     public int getId() {
         return id;
@@ -97,13 +104,13 @@ public class Post {
         return text;
     }
 
-    public boolean isHide() {
-        return isHide;
-    }
-
-    public void setHide(boolean hide) {
-        isHide = hide;
-    }
+//    public boolean isHide() {
+//        return isHide;
+//    }
+//
+//    public void setHide(boolean hide) {
+//        isHide = hide;
+//    }
 
     public void setText(String text) {
         this.text = text;
@@ -134,7 +141,7 @@ public class Post {
                 ", text='" + text + '\'' +
                 ", userName='" + userName + '\'' +
                 ", points=" + points +
-                ", isHide=" + isHide +
+//                ", isHide=" + isHide +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", comments=" + comments +

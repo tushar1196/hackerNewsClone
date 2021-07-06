@@ -49,7 +49,6 @@
     </form>
 </div>
     <div th:each="post: ${postslist}">
-    <div th:if="${post.isHide} ==false" >
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="${post.url}"></a>
@@ -60,9 +59,6 @@
         <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
             th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <br><br>
-    </div>
-    <br><br>
-</div>
 </div>
     <div th:each="comm: ${comments}">
         <p th:text="${comm.description}"></p>

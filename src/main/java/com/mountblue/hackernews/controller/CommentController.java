@@ -2,9 +2,12 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.model.Post;
+import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
+import com.mountblue.hackernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,22 +20,27 @@ public class CommentController {
 
     @Autowired
     private CommentService commentService;
-
     @Autowired
     private PostService postService;
+    @Autowired
+    private UserService userService;
 
-    @PostMapping("/save/{id}")
-    public String addComment(@PathVariable("id") Integer id, @ModelAttribute("comment") Comment comment) {
+    @PostMapping("/save/{postId}")
+    public String addComment(@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment, Authentication authentication) {
         System.out.println("inside save comment");
         Timestamp instant = Timestamp.from(Instant.now());
         if (comment.getCreatedAt() == null) {
             comment.setCreatedAt(instant);
         }
+
+        User user = userService.findByEmail(authentication.getName());
+        comment.setName(user.getName());
+        comment.setEmail(user.getEmail());
         comment.setUpdatedAt(instant);
-        Post post = postService.getPostById(id);
+        Post post = postService.getPostById(postId);
         post.getComments().add(comment);
         postService.savePost(post);
-        return "redirect:/post/" + id;
+        return "redirect:/post/" + postId;
     }
 
     @GetMapping("/updateCommentForm/{commentId}/{postId}")
@@ -56,4 +64,21 @@ public class CommentController {
         commentService.deleteCommentById(commentId);
         return "redirect:/post/" + postId;
     }
+
+    @GetMapping("/upvotecomment/{commentId}/{postId}")
+    public String upvoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+        Comment comment = commentService.getCommentById(commentId);
+        comment.setPoints(comment.getPoints() + 1);
+        commentService.saveComment(comment);
+        return "redirect:/post/" + postId;
+    }
+
+    @GetMapping("/downvotecomment/{commentId}/{postId}")
+    public String downVoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+        Comment comment = commentService.getCommentById(commentId);
+        comment.setPoints(comment.getPoints() - 1);
+        commentService.saveComment(comment);
+        return "redirect:/post/" + postId;
+    }
+
 }

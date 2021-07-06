@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymLeaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Admin Dashboard</title>
     <style>
         a{
         text-decoration: none;
@@ -14,7 +14,7 @@
     </style>
 </head>
 <body>
-<h1 align="center" style="background-color:black;color:white">Hello</h1>
+<h1 align="center" style="background-color:black;color:white" th:text="'Hello '+${user.name}"></h1>
 <br>
 <div style="background-color:red; padding: 11px 16px">
     <a th:href="@{/}">Hacker News |</a>
@@ -45,7 +45,7 @@
             <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="@{'/post/' + ${post.id}}"></a>
         </h2>
-        <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+        <span th:text="${post.points}+ ' points' + ' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
         <a th:href="@{'/vote/'+${post.id}}">UpVote |</a>
         <a th:href="@{'/unvote/'+${post.id}}">DownVote |</a>
         <!--        <a th:if="${user.isVoted}==true" th:href="@{'/unvote/'+${post.id}}">UnVote |</a>-->

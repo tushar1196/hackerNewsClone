@@ -2,11 +2,14 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.model.Comment;
+import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
+import com.mountblue.hackernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -27,9 +30,12 @@ public class PostController {
     @Autowired
     private CommentService commentService;
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/")
-    public String home(Model model) {
-        return paginatedPage(1, "createdAt", "asc", model);
+    public String home(Model model, Authentication authentication) {
+        return paginatedPage(1, "createdAt", "asc", model, authentication);
     }
 
     @GetMapping("/ask")
@@ -46,7 +52,10 @@ public class PostController {
     }
 
     @PostMapping("/addpost")
-    public String addPost(@ModelAttribute("post") Post post) {
+    public String addPost(@ModelAttribute("post") Post post, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
+        System.out.println(user + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        post.setUserName(user.getName());
         postService.savePost(post);
         return "redirect:/";
     }
@@ -58,18 +67,42 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String showQuestion(@PathVariable("id") Integer id, Model model) {
+    public String showPost(@PathVariable("id") Integer id, Model model, Authentication authentication) {
         Comment comment = new Comment();
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comment", comment);
+        if (authentication != null) {
+            User user = userService.findByEmail(authentication.getName());
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user",new User());
+        }
         return "viewpost";
     }
 
     @GetMapping("/vote/{id}")
-    public String vote(@PathVariable("id") int postId) {
+    public String vote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
+//        User user = userService.findByEmail(authentication.getName());
         post.setPoints(post.getPoints() + 1);
+//        user.setVoted(true);
+//        userService.saveUser(user);
         postService.savePost(post);
+        System.out.println("after voting ihgyuvshdbidygfyvuhbewisdga8vydbfi8geqhhgsyvaxagsfvdbohcsgvdbsho" +
+                "==================" + post + "------------------------" /*+ user*/);
+        return "redirect:/";
+    }
+
+    @GetMapping("/unvote/{id}")
+    public String unVote(@PathVariable("id") int postId, Authentication authentication) {
+        Post post = postService.getPostById(postId);
+//        User user = userService.findByEmail(authentication.getName());
+        post.setPoints(post.getPoints() - 1);
+//        user.setVoted(true);
+//        userService.saveUser(user);
+        postService.savePost(post);
+        System.out.println("after voting ihgyuvshdbidygfyvuhbewisdga8vydbfi8geqhhgsyvaxagsfvdbohcsgvdbsho" +
+                "==================" + post + "------------------------" + "" /*user*/);
         return "redirect:/";
     }
 
@@ -78,7 +111,7 @@ public class PostController {
         System.out.println("in hide post");
         Post post = postService.getPostById(postId);
         System.out.println(post);
-        post.setHide(true);
+//        post.setHide(true);
         //System.out.println("after set t_____________________________________________" + post);
         postService.savePost(post);
         return "redirect:/";
@@ -88,7 +121,7 @@ public class PostController {
     public String unhidePostById(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
 
-        post.setHide(false);
+//        post.setHide(false);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -109,11 +142,13 @@ public class PostController {
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDirection") String sortDirection, Model model) {
-        int pageSize = 3;
+                                @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication) {
+        int pageSize = 10;
+
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
+
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -123,13 +158,27 @@ public class PostController {
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         model.addAttribute("listOfPost", postsList);
 
+        if (authentication != null) {
+            User user = userService.findByEmail(authentication.getName());
+            if (user.getRole().equals("ROLE_ADMIN")) {
+                model.addAttribute("user", user);
+                return "admindashboard";
+            } else if (user.getRole().equals("ROLE_USER")) {
+                model.addAttribute("user", user);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + user.getName());
+                return "userdashboard";
+            }
+        }
         return "dashboard";
     }
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
+
         List<Post> postsList = postService.getPostByKeyWord(keyWord, "", "");
         List<Comment> commentsList = commentService.getCommentsByKeyWord(keyWord, "", "");
+
+
         model.addAttribute("search", keyWord);
         model.addAttribute("commentslist", commentsList);
         model.addAttribute("postslist", postsList);
@@ -140,38 +189,33 @@ public class PostController {
     public String filter(@RequestParam("type") String selected,@RequestParam("by") String by,
                          @RequestParam("startdatetime") String startDate,
                          @RequestParam("enddatetime") String endDate,
-                         @RequestParam("search") String search, Model model){
-      //  List<Comment> commentsList=commentService.getCommentBySearch(search);
+                         @RequestParam("search") String search, Model model) {
+        //  List<Comment> commentsList=commentService.getCommentBySearch(search);
 
-        if(selected.equals("comments")){
+        if (selected.equals("comments")) {
             model.addAttribute("search", search);
-            if(by.equals("date") || startDate.isEmpty() || endDate.isEmpty()){
-                System.out.println(startDate+" "+endDate);
+            if (by.equals("date") || startDate.isEmpty() || endDate.isEmpty()) {
+                System.out.println(startDate + " " + endDate);
                 List<Comment> commentsList = commentService.getCommentsByKeyWord(search, startDate, endDate);
                 model.addAttribute("comments", commentsList);
-            }
-            else if(by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()){
-                System.out.println(startDate+" "+endDate);
+            } else if (by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()) {
+                System.out.println(startDate + " " + endDate);
                 List<Comment> commentsList = commentService.getCommentByKeyWordWithPoints(search, startDate, endDate);
-                model.addAttribute("postslist", commentsList);
+                model.addAttribute("comments", commentsList);
             }
-       }
-       else if (selected.equals("stories")){
-           model.addAttribute("search", search);
-           if(by.equals("date") || startDate.isEmpty() || endDate.isEmpty()){
-               //System.out.println(startDate+" "+endDate);
-               List<Post> postsList = postService.getPostByKeyWord(search, startDate, endDate);
-               model.addAttribute("postslist", postsList);
-           }
-           else if(by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()){
-               System.out.println(startDate+" "+endDate);
-               List<Post> postsList = postService.getPostByKeyWordWithPoints(search, startDate, endDate);
-               model.addAttribute("postslist", postsList);
-           }
-       }
-
-       System.out.println(selected+"--------------"+search+"---------------"+by);
+        } else if (selected.equals("stories")) {
+            model.addAttribute("search", search);
+            if (by.equals("date") || startDate.isEmpty() || endDate.isEmpty()) {
+                //System.out.println(startDate+" "+endDate);
+                List<Post> postsList = postService.getPostByKeyWord(search, startDate, endDate);
+                model.addAttribute("postslist", postsList);
+            } else if (by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()) {
+                System.out.println(startDate + " " + endDate);
+                List<Post> postsList = postService.getPostByKeyWordWithPoints(search, startDate, endDate);
+                model.addAttribute("postslist", postsList);
+            }
+        }
         return "search";
-    }
 
+    }
 }

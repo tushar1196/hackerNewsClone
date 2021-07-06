@@ -26,7 +26,7 @@ public interface CommentRepository extends JpaRepository<Comment,Integer> {
     public List<Comment> findAllByKeyWordWithTimeDate(String keyWord, Timestamp dateFrom, Timestamp dateTo);
     Post findById(int id);
 
-    @Query(value = "select * from post  where description LIKE %?1% AND created_at>=?2" +
+    @Query(value = "select * from comments  where description LIKE %?1% AND created_at>=?2" +
             " AND created_at<=?3 ORDER BY points DESC",
             nativeQuery = true)
     public List<Comment> findAllByKeyWordWithPoints(String keyword, Timestamp dateFrom, Timestamp dateTo);

@@ -16,23 +16,27 @@
     <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
     <a th:href="@{/show}">Show | </a>
-    <a th:href="@{/postform}">Submit</a>
+    <a th:href="@{/postform}">Submit |</a>
+    <a th:href="@{/login}">Login |</a>
+    <a th:href="@{/logout}">Logout |</a>
+    <a th:href="@{/register}">Register</a>
 </div>
 <br><br>
 
 <div th:each="post: ${postByAskHN}">
-    <div th:if="${post.isHide==false}" >
+    <div th:if="${post.isHide==false}">
         <h2><a th:text="${post.title}" th:href="@{'/showquestion/' + ${post.id}}"></a>
         </h2>
-        <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
-            th:href="@{'/post/'+${post.id}}"> Comment |</a><a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a><a
-            th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
+        <span th:text="${post.points}+ ' points' +  ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a>
+        <a th:href="@{'/unvote/'+${post.id}}">UnVote |</a>
+        <a th:href="@{'/hide/'+${post.id}}"> Hide |</a>
+        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
+        <a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
+        <a th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
         <br><br>
     </div>
     <br><br>
 </div>
-
-
 </body>
 </html>

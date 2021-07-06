@@ -8,9 +8,6 @@
     text-decoration: none;
     color: black;
     }
-
-
-
     </style>
 </head>
 <body>
@@ -31,25 +28,47 @@
     <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
 
         <input type="text" th:field="*{id}" hidden><br><br>
-        <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
-        <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>
-        <textarea rows="10" cols="111" th:field="*{description}"></textarea><br><br>
+        <!--        <div th:if="">-->
+<!--        <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>-->
+        <!--        </div>-->
+<!--        <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>-->
+        <textarea rows="10" cols="111" th:field="*{description}" required></textarea><br><br>
 
         <input type="submit" value="save comment" size="60">
     </form>
 
     <div th:each="comment : ${post.comments}">
-        <h2 th:text="${comment.name}"></h2>
-        <h5 th:text="${comment.createdAt}"></h5>
-        <h5 th:text="${comment.description}"></h5>
-
-        <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
-            <input type="submit" value="delete comment">
-        </form>
-        <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
-
-            <input type="submit" value="update comment">
-        </form>
+        <h3 th:text="${comment.description}"></h3>
+        <span th:text="${comment.points}"></span> points
+        | Posted By:-<span th:text="${comment.name}"></span>
+        | Created At:-<span th:text="${comment.createdAt}"></span>
+        <table>
+            <td>
+<!--                "@{'/delete/'+${comment.id}+'/'+${post.id}}"-->
+                <a th:href="@{'/upvotecomment/'+${comment.id}+'/'+${post.id}}">
+                    <button>UpVote</button>
+                </a>
+            </td>
+            <td>
+                <a th:href="@{'/downvotecomment/'+${comment.id}+'/'+${post.id}}">
+                    <button>DownVote</button>
+                </a>
+            </td>
+            <td>
+                <div th:if="${comment.name==user.name}">
+                    <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
+                        <input type="submit" value="delete comment">
+                    </form>
+                </div>
+            </td>
+            <td>
+                <div th:if="${comment.name==userName}">
+                    <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
+                        <input type="submit" value="update comment">
+                    </form>
+                </div>
+            </td>
+        </table>
     </div>
 </div>
 </body>
