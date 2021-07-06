@@ -20,7 +20,10 @@ public interface PostService {
 
     public Page<Post> findPaginated(Integer pageNo, Integer pageSize, String sortingField, String sortingOrder);
 
-    public List<Post> getPostByKeyWord(String keyWord);
+    public List<Post> getPostByKeyWord(String keyWord,String startDate, String endDate);
 
     void deletePostById(int postId);
+
+    public List<Post> getPostByKeyWordWithPoints(String keyWord, String startDate, String endDate);
+   // public  List<Post> getSortedList(List<Post> postsList);
 }

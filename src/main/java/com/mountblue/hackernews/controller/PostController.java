@@ -6,10 +6,13 @@ import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Timestamp;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -107,7 +110,7 @@ public class PostController {
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDirection") String sortDirection, Model model) {
-        int pageSize = 1;
+        int pageSize = 3;
 
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> postsList = page.getContent();
@@ -125,37 +128,49 @@ public class PostController {
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
-        List<Post> postsList = postService.getPostByKeyWord(keyWord);
-        List<String> stories= new ArrayList<>();
-        stories.add("comments");
-        stories.add("stories");
+        List<Post> postsList = postService.getPostByKeyWord(keyWord, "", "");
+        List<Comment> commentsList = commentService.getCommentsByKeyWord(keyWord, "", "");
         model.addAttribute("search", keyWord);
-        model.addAttribute("searchtype", stories);
+        model.addAttribute("commentslist", commentsList);
         model.addAttribute("postslist", postsList);
         return "search";
     }
 
     @PostMapping("/filter")
-    public String filter(@RequestParam("select") String selected, @RequestParam("search") String search, Model model){
-        List<Post> postsList = postService.getPostByKeyWord(search);
-        List<String> stories= new ArrayList<>();
-        stories.add("comments");
-        stories.add("stories");
+    public String filter(@RequestParam("type") String selected,@RequestParam("by") String by,
+                         @RequestParam("startdatetime") String startDate,
+                         @RequestParam("enddatetime") String endDate,
+                         @RequestParam("search") String search, Model model){
+      //  List<Comment> commentsList=commentService.getCommentBySearch(search);
 
         if(selected.equals("comments")){
-           List<Comment> commentsList=commentService.getCommentBySearch(search);
             model.addAttribute("search", search);
-            model.addAttribute("searchtype", stories);
-           model.addAttribute("comments", commentsList);
+            if(by.equals("date") || startDate.isEmpty() || endDate.isEmpty()){
+                System.out.println(startDate+" "+endDate);
+                List<Comment> commentsList = commentService.getCommentsByKeyWord(search, startDate, endDate);
+                model.addAttribute("comments", commentsList);
+            }
+            else if(by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()){
+                System.out.println(startDate+" "+endDate);
+                List<Comment> commentsList = commentService.getCommentByKeyWordWithPoints(search, startDate, endDate);
+                model.addAttribute("postslist", commentsList);
+            }
        }
        else if (selected.equals("stories")){
-
-
            model.addAttribute("search", search);
-           model.addAttribute("searchtype", stories);
-           model.addAttribute("postslist", postsList);
+           if(by.equals("date") || startDate.isEmpty() || endDate.isEmpty()){
+               //System.out.println(startDate+" "+endDate);
+               List<Post> postsList = postService.getPostByKeyWord(search, startDate, endDate);
+               model.addAttribute("postslist", postsList);
+           }
+           else if(by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()){
+               System.out.println(startDate+" "+endDate);
+               List<Post> postsList = postService.getPostByKeyWordWithPoints(search, startDate, endDate);
+               model.addAttribute("postslist", postsList);
+           }
        }
-        System.out.println(selected+"--------------"+search);
+
+       System.out.println(selected+"--------------"+search+"---------------"+by);
         return "search";
     }
 
