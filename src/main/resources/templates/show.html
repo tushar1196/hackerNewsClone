@@ -8,17 +8,6 @@
     text-decoration: none;
     color: black;
     }
-
-
-
-
-
-
-
-
-
-
-
     </style>
 </head>
 <body>
@@ -27,14 +16,9 @@
     <a th:href="@{/ask}">Ask | </a>
     <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit |</a>
-    <a th:href="@{/login}">Login |</a>
-    <a th:href="@{/logout}">Logout |</a>
-    <a th:href="@{/register}">Register</a>
+<!--    <a th:text="'##'+${user.name}"/></a>-->
 </div>
 <br><br>
-<!--<div th:each="post : ${postByAskHN}">-->
-<!--    <h2><a th:text="${post.title}" th:href="@{/showquestion/${post.id}s"></a></h2>-->
-<!--</div>-->
 
 <div th:each="post: ${postByShowHN}">
     <div>
@@ -42,7 +26,6 @@
         <span th:text="${post.points}+ ' points' +  ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
         <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
         <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
-<!--        <a th:href="@{'/hide/'+${post.id}}"> Hide |</a>-->
         <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
         <a th:href="@{'/updatepost/'+${post.id}}"> Update |</a>

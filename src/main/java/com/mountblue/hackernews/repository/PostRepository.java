@@ -30,7 +30,10 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
             nativeQuery = true)
     public List<Post> findAllByKeyWordWithPoints(String keyword, Timestamp dateFrom, Timestamp dateTo);
 
-    @Query(value = "select * from post  where title LIKE %?1% OR url Like %?1% OR text LIKE %?1% ORDER BY created_at DESC", nativeQuery = true)
-    public List<Post> findAllByKeyWord(String keyWord);
+    @Query(value = "select * from post  where title LIKE %?1% OR url Like %?1% OR text LIKE %?1% ORDER BY created_at  DESC", nativeQuery = true)
+    public List<Post> findAllByKeyWordDescOrder(String keyWord);
+
+    @Query(value = "select * from post  where title LIKE %?1% OR url Like %?1% OR text LIKE %?1% ORDER BY points  DESC", nativeQuery = true)
+    public List<Post> findAllByKeyWordPopularDescOrder(String keyWord);
 
 }

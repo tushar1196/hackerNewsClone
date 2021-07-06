@@ -62,7 +62,7 @@
                 </div>
             </td>
             <td>
-                <div th:if="${comment.name==userName}">
+                <div th:if="${comment.name==user.name}">
                     <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
                         <input type="submit" value="update comment">
                     </form>

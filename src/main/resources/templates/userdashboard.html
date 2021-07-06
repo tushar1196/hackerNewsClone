@@ -14,16 +14,14 @@
     </style>
 </head>
 <body>
-<h1 align="center" style="background-color:black;color:white" th:text="'Hello '+${user.name}"></h1>
-<br>
 <div style="background-color:red; padding: 11px 16px">
     <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
     <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit |</a>
-    <a th:href="@{/login}">Login |</a>
+
     <a th:href="@{/logout}">Logout |</a>
-    <a th:href="@{/register}">Register</a>
+    <a th:text="'#'+${user.name}"/></a>
 
     <div style="float: right ">
         <form action="#" th:action="@{/search}" th:method="get">

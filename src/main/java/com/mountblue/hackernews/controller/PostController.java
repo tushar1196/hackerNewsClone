@@ -36,11 +36,11 @@ public class PostController {
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
-        return paginatedPage(1, "createdAt", "asc", model, authentication);
+        return paginatedPage(1, "createdAt", "asc", model, authentication, "none");
     }
 
     @GetMapping("/ask")
-    public String getAllPostByAskHN(Model model) {
+    public String getAllPostByAskHN(Model model, Authentication authentication) {
         model.addAttribute("postByAskHN", postService.getAllByAskHN());
         return "ask";
     }
@@ -65,7 +65,7 @@ public class PostController {
     }
 
     @GetMapping("/show")
-    public String getAllShowHN(Model model) {
+    public String getAllShowHN(Model model, Authentication authentication) {
         model.addAttribute("postByShowHN", postService.getAllByShowHN());
         return "show";
     }
@@ -146,7 +146,7 @@ public class PostController {
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication) {
+                                @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication, String nonUser) {
         int pageSize = 10;
 
 
@@ -191,8 +191,8 @@ public class PostController {
 
     @PostMapping("/filter")
     public String filter(@RequestParam("type") String selected,@RequestParam("by") String by,
-                         @RequestParam("startdatetime") String startDate,
-                         @RequestParam("enddatetime") String endDate,
+                         @RequestParam(value = "startdatetime", required = false,defaultValue = "") String startDate,
+                         @RequestParam(value = "enddatetime", required = false, defaultValue = "") String endDate,
                          @RequestParam("search") String search, Model model) {
         //  List<Comment> commentsList=commentService.getCommentBySearch(search);
 

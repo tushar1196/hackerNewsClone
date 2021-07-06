@@ -87,7 +87,7 @@ public class PostServiceImpl implements PostService {
 
             return this.postRepository.findAllByKeyWordWithTimeDate(keyWord, dateFrom, dateTo);
         }
-        return postRepository.findAllByKeyWord(keyWord);
+        return postRepository.findAllByKeyWordDescOrder(keyWord);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class PostServiceImpl implements PostService {
             System.out.println(dateFrom+"    "+dateTo);
             return postRepository.findAllByKeyWordWithPoints(keyWord, dateFrom, dateTo);
         }
-        return postRepository.findAllByKeyWord(keyWord);
+        return postRepository.findAllByKeyWordPopularDescOrder(keyWord);
     }
 
     /*@Override
