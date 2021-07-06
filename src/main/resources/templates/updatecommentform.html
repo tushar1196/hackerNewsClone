@@ -20,11 +20,11 @@
          textarea{
             width: 100%;
         }
-
          a{
         text-decoration: none;
         color: black;
         }
+
     </style>
 </head>
 <body>
@@ -37,7 +37,6 @@
 </div>
 <br>
 <div th:align="left">
-    <!--form action="#" th:action="@{/update/${postId}" th:object="${comment}" th:method="POST"-->
     <form action="#" th:action="@{'/update/'+${comment.id}+'/'+${postId}}" th:object="${comment}"
           th:method="POST">
         <input type="hidden" th:field="*{id}">

@@ -1,7 +1,6 @@
 package com.mountblue.hackernews.service;
 
 import com.mountblue.hackernews.model.Comment;
-import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.repository.CommentRepository;
 import com.mountblue.hackernews.repository.PostRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentsByKeyWord(String keyWord, String startDate, String endDate) {
-        if(!startDate.isEmpty() && !endDate.isEmpty()) {
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
             Timestamp dateFrom = Timestamp.from(Instant.parse(startDate + ":00.000Z"));
             Timestamp dateTo = Timestamp.from(Instant.parse(endDate + ":00.000Z"));
 
@@ -86,7 +85,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public List<Comment> getCommentByKeyWordWithPoints(String keyWord, String startDate, String endDate) {
-        if(!startDate.isEmpty() && !endDate.isEmpty()) {
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
             Timestamp dateFrom = Timestamp.from(Instant.parse(startDate + ":00.000Z"));
             Timestamp dateTo = Timestamp.from(Instant.parse(endDate + ":00.000Z"));
 
@@ -114,7 +113,7 @@ public class CommentServiceImpl implements CommentService {
             calDateTo.add(Calendar.HOUR, -5);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
 
-            System.out.println(dateFrom+"    "+dateTo);
+            System.out.println(dateFrom + "    " + dateTo);
             return commentRepository.findAllByKeyWordWithPoints(keyWord, dateFrom, dateTo);
         }
         return commentRepository.findCommentByKeyWord(keyWord);

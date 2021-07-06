@@ -27,7 +27,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void savePost(Post post) {
-//        post.setHide(false);
         postRepository.save(post);
     }
 
@@ -57,30 +56,21 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostByKeyWord(String keyWord, String startDate, String endDate) {
-        if(!startDate.isEmpty() && !endDate.isEmpty()) {
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
             Timestamp dateFrom = Timestamp.from(Instant.parse(startDate + ":00.000Z"));
             Timestamp dateTo = Timestamp.from(Instant.parse(endDate + ":00.000Z"));
 
             Calendar calDateFrom = Calendar.getInstance();
             calDateFrom.setTimeInMillis(dateFrom.getTime());
-
-            // subtract 30 minutes
             calDateFrom.add(Calendar.MINUTE, -30);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
-
-            // subtract 5 hours
             calDateFrom.setTimeInMillis(dateFrom.getTime());
             calDateFrom.add(Calendar.HOUR, -5);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
-
             Calendar calDateTo = Calendar.getInstance();
             calDateTo.setTimeInMillis(dateTo.getTime());
-
-            // subtract 30 minutes
             calDateTo.add(Calendar.MINUTE, -30);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
-
-            // subtract 5 hours
             calDateTo.setTimeInMillis(dateTo.getTime());
             calDateTo.add(Calendar.HOUR, -5);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
@@ -97,42 +87,27 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> getPostByKeyWordWithPoints(String keyWord, String startDate, String endDate) {
-        if(!startDate.isEmpty() && !endDate.isEmpty()) {
+        if (!startDate.isEmpty() && !endDate.isEmpty()) {
             Timestamp dateFrom = Timestamp.from(Instant.parse(startDate + ":00.000Z"));
             Timestamp dateTo = Timestamp.from(Instant.parse(endDate + ":00.000Z"));
 
             Calendar calDateFrom = Calendar.getInstance();
             calDateFrom.setTimeInMillis(dateFrom.getTime());
-
-            // subtract 30 minutes
             calDateFrom.add(Calendar.MINUTE, -30);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
-
-            // subtract 5 hours
             calDateFrom.setTimeInMillis(dateFrom.getTime());
             calDateFrom.add(Calendar.HOUR, -5);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
-
             Calendar calDateTo = Calendar.getInstance();
             calDateTo.setTimeInMillis(dateTo.getTime());
-
-            // subtract 30 minutes
             calDateTo.add(Calendar.MINUTE, -30);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
-
-            // subtract 5 hours
             calDateTo.setTimeInMillis(dateTo.getTime());
             calDateTo.add(Calendar.HOUR, -5);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
 
-            System.out.println(dateFrom+"    "+dateTo);
             return postRepository.findAllByKeyWordWithPoints(keyWord, dateFrom, dateTo);
         }
         return postRepository.findAllByKeyWordPopularDescOrder(keyWord);
     }
-
-    /*@Override
-    public List<Post> getSortedList(List<Post> postsList) {
-        return postRepository.
-    }*/
 }

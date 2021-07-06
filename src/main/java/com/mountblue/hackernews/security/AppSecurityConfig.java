@@ -34,7 +34,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
         return new MyUserDetailService();
     }
 
-
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authenticationProvider());
@@ -56,10 +55,6 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .hasAnyRole("AUTHOR", "USER")
                 .and()
                 .formLogin()
-//                .loginPage("/login")
-//                .usernameParameter("email")
-//                .passwordParameter("password")
-//                .successForwardUrl("/")
                 .permitAll()
                 .and()
                 .csrf().disable()

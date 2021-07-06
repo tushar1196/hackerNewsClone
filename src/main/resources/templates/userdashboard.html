@@ -14,14 +14,13 @@
     </style>
 </head>
 <body>
-<div style="background-color:red; padding: 11px 16px">
+<div style="background-color:#FB693F; padding: 11px 16px">
     <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
     <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit |</a>
-
     <a th:href="@{/logout}">Logout |</a>
-    <a th:text="'#'+${user.name}"/></a>
+    <a th:text="'#'+${user.name}"></a>
 
     <div style="float: right ">
         <form action="#" th:action="@{/search}" th:method="get">
@@ -30,9 +29,10 @@
         </form>
     </div>
 </div>
-<br><br><br>
-<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">Sort by
-    published date</a>
+<br>
+<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">
+    <button>Sort by Date</button>
+</a>
 <div th:each="post: ${listOfPost}">
     <div>
         <h2>
@@ -44,11 +44,7 @@
         <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
         <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
         <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
-        <!--        <a th:if="${user.isVoted}==true" th:href="@{'/unvote/'+${post.id}}">UnVote |</a>-->
-
-        <!--        <a th:if="${post.isHide}==false" th:href="@{'/hide/'+${post.id}}">Hide |</a>-->
         <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
-<!--        <p th:text="${#strings.equals(first, second)}"></p>-->
         <a th:if="${user.name==post.userName}" th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
         <a th:if="${user.name==post.userName}" th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
         <br><br>

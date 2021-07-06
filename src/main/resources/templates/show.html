@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymLeaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Ask</title>
+    <title>Show</title>
     <style>
     a{
     text-decoration: none;
@@ -16,10 +16,8 @@
     <a th:href="@{/ask}">Ask | </a>
     <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit |</a>
-<!--    <a th:text="'##'+${user.name}"/></a>-->
 </div>
 <br><br>
-
 <div th:each="post: ${postByShowHN}">
     <div>
         <h2><a th:text="${post.title}" th:href="${post.url}"></a></h2>

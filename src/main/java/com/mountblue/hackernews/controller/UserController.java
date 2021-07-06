@@ -10,21 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.annotation.Resource;
-
 @Controller
 public class UserController {
 
     @Autowired
     UserService userService;
-
     @Autowired
     BCryptPasswordEncoder bCryptPasswordEncoder;
-
-//    @GetMapping("/login")
-//    public String userLogin() {
-//        return "userLogin";
-//    }
 
     @RequestMapping("/register")
     public String newUserRegister(Model model) {

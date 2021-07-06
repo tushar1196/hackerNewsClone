@@ -1,25 +1,21 @@
 package com.mountblue.hackernews.service;
 
 import com.mountblue.hackernews.model.Comment;
-import com.mountblue.hackernews.model.Post;
 
 import java.util.List;
 
 public interface CommentService {
-    public void saveComment(Comment comment);
+    void saveComment(Comment comment);
 
-    public void updateCommentById(Comment comment, Integer commentId);
+    void updateCommentById(Comment comment, Integer commentId);
 
-    public Comment getCommentById(Integer commentId);
+    Comment getCommentById(Integer commentId);
 
-    public void deleteCommentById(Integer id);
+    void deleteCommentById(Integer id);
 
-    public List<Comment> getCommentBySearch(String keyWord);
+    List<Comment> getCommentBySearch(String keyWord);
 
+    List<Comment> getCommentsByKeyWord(String keyWord, String startDate, String endDate);
 
-
-    public List<Comment> getCommentsByKeyWord(String keyWord, String startDate, String endDate);
-
-
-    public List<Comment> getCommentByKeyWordWithPoints(String keyWord, String startDate, String endDate);
+    List<Comment> getCommentByKeyWordWithPoints(String keyWord, String startDate, String endDate);
 }
