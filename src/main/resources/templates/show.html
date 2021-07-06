@@ -21,12 +21,11 @@
 <div th:each="post: ${postByShowHN}">
     <div>
         <h2><a th:text="${post.title}" th:href="${post.url}"></a></h2>
-        <span th:text="${post.points}+ ' points' +  ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+        <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At :
+        ' +${post.createdAt}"></span><br>
         <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
         <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
         <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
-        <a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
-        <a th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
         <br><br>
     </div>
     <br><br>

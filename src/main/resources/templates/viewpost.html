@@ -19,15 +19,11 @@
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br>
-
 <div style="background-color:#f6f6ef; padding: 11px 16px">
     <h3 th:text="${post.title}" th:align="left"></h3><br>
     <p th:text="${post.text}" th:align="left"></p><br>
-
     <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
-
         <input type="text" th:field="*{id}" hidden><br><br>
-        <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>-->
         <textarea rows="10" cols="111" th:field="*{description}" required></textarea><br><br>
         <input type="submit" value="save comment" size="60">
     </form>
