@@ -14,13 +14,12 @@
     </style>
 </head>
 <body>
-<div style="background-color:red; padding: 11px 16px">
+<div style="background-color:FB693F; padding: 11px 16px">
     <a th:href="@{/}">Hacker News</a>
 </div>
 <br>
 <div>
     <form action="#" th:action="@{/filter}" method="post">
-
         <label>Filter</label>
         <input type="hidden" th:name="search" th:value="${search}">
         <select name="type">
