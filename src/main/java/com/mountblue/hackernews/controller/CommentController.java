@@ -56,4 +56,13 @@ public class CommentController {
         commentService.deleteCommentById(commentId);
         return "redirect:/post/" + postId;
     }
+
+    @GetMapping("/upvotecomment/{commentId}/{postId}")
+    public String upvoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+        Comment comment = commentService.getCommentById(commentId);
+        comment.setPoints(comment.getPoints()+1);
+        commentService.saveComment(comment);
+        return "redirect:/post/" + postId;
+    }
+
 }

@@ -8,9 +8,6 @@
     text-decoration: none;
     color: black;
     }
-
-
-
     </style>
 </head>
 <body>
@@ -41,17 +38,19 @@
     </form>
 
     <div th:each="comment : ${post.comments}">
-        <h2 th:text="${comment.name}"></h2>
-        <h5 th:text="${comment.createdAt}"></h5>
-        <h5 th:text="${comment.description}"></h5>
+        <h3 th:text="${comment.description}"></h3>
+        <span th:text="${comment.points}"></span> points
+        | Posted By:-<span th:text="${comment.name}"></span>
+        | Created At:-<span th:text="${comment.createdAt}"></span>
         <table>
             <td>
-                <a th:href="@{'/upvotecomment/'+${comment.id}">
+<!--                "@{'/delete/'+${comment.id}+'/'+${post.id}}"-->
+                <a th:href="@{'/upvotecomment/'+${comment.id}+'/'+${post.id}}">
                     <button>UpVote</button>
                 </a>
             </td>
             <td>
-                <a th:href="@{'/downvotecomment/'+${comment.id}">
+                <a th:href="@{'/downvotecomment/'+${comment.id}+'/'+${post.id}}">
                     <button>DownVote</button>
                 </a>
             </td>
