@@ -24,13 +24,13 @@
 <br><br>
 
 <div th:each="post: ${postByAskHN}">
-    <div th:if="${post.isHide==false}">
+    <div>
         <h2><a th:text="${post.title}" th:href="@{'/showquestion/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' +  ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a>
-        <a th:href="@{'/unvote/'+${post.id}}">UnVote |</a>
-        <a th:href="@{'/hide/'+${post.id}}"> Hide |</a>
+        <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
+        <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
+<!--        <a th:href="@{'/hide/'+${post.id}}"> Hide |</a>-->
         <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <a th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
         <a th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
