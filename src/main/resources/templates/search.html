@@ -58,8 +58,7 @@
                th:href="@{'/post/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a>
-        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
+    <p> <a th:href="@{'/post/'+${post.id}}"> Comment |</a></p>
         <br><br>
 </div>
 
