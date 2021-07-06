@@ -51,7 +51,8 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/", "/ask", "/show", "/post/**", "/search**", "/page/**"
                         , "/filter**", "/register/**", "/saveuser/**", "/login/**").permitAll()
                 .antMatchers("/save/**", "/updateCommentForm/**", "/delete/**", "/postform/**"
-                        , "/addpost/**", "/vote/**", "/hide/**", "/unhide/**", "/deletepost/**", "/updatepost/**")
+                        , "/addpost/**", "/upvote/**", "/downvote/**", "/upvotecomment/**", "/downvotecomment/**",
+                        "/hide/**", "/unhide/**", "/deletepost/**", "/updatepost/**")
                 .hasAnyRole("AUTHOR", "USER")
                 .and()
                 .formLogin()

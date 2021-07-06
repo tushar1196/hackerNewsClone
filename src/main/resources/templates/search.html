@@ -37,7 +37,7 @@
     </form>
 </div>
     <div th:each="post: ${postslist}">
-    <div th:if="${post.isHide} ==false" >
+    <div>
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="${post.url}"></a>
@@ -56,7 +56,5 @@
         <p th:text="${comm.description}"></p>
 
     </div>
-
-
 </body>
 </html>

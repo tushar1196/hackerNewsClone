@@ -77,7 +77,7 @@ public class PostController {
         return "viewpost";
     }
 
-    @GetMapping("/vote/{id}")
+    @GetMapping("/upvote/{id}")
     public String vote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
 //        User user = userService.findByEmail(authentication.getName());
@@ -90,7 +90,7 @@ public class PostController {
         return "redirect:/";
     }
 
-    @GetMapping("/unvote/{id}")
+    @GetMapping("/downvote/{id}")
     public String unVote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
 //        User user = userService.findByEmail(authentication.getName());

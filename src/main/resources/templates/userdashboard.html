@@ -44,8 +44,8 @@
                th:href="@{'/post/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">UpVote |</a>
-        <a th:href="@{'/unvote/'+${post.id}}">DownVote |</a>
+        <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
+        <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
         <!--        <a th:if="${user.isVoted}==true" th:href="@{'/unvote/'+${post.id}}">UnVote |</a>-->
 
         <!--        <a th:if="${post.isHide}==false" th:href="@{'/hide/'+${post.id}}">Hide |</a>-->
