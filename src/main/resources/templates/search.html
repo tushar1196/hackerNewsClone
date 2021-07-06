@@ -11,6 +11,7 @@
         div{
         display: float-right;
         }
+
     </style>
 </head>
 <body>
@@ -25,12 +26,12 @@
 </div>
 <div>
     <form action="#" th:action="@{/filter}" method="post">
+
             <label>Search</label>
             <input type="hidden"  th:name="search" th:value="${search}">
             <select name="type">
-
-                <option th:value="stories">stories</option>
-                <option th:value="comments">comments</option>
+            <option th:value="stories">stories</option>
+            <option th:value="comments">comments</option>
 
             </select>
 
@@ -48,7 +49,8 @@
         <input type="submit" value="Apply">
     </form>
 </div>
-    <div th:each="post: ${postslist}">
+<div th:each="post: ${postslist}">
+
         <h2>
             <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                th:href="${post.url}"></a>
@@ -56,15 +58,14 @@
                th:href="@{'/post/' + ${post.id}}"></a>
         </h2>
         <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/vote/'+${post.id}}">Vote |</a><a th:href="@{'/hide/'+${post.id}}"> Hide |</a><a
-            th:href="@{'/post/'+${post.id}}"> Comment |</a>
+        <a th:href="@{'/vote/'+${post.id}}">Vote |</a>
+        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
         <br><br>
 </div>
-    <div th:each="comm: ${comments}">
-        <p th:text="${comm.description}"></p>
 
-    </div>
+<div th:each="comm: ${comments}">
+    <p th:text="${comm.description}"></p>
 
-
+</div>
 </body>
 </html>
