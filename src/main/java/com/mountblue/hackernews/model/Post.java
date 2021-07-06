@@ -30,8 +30,8 @@ public class Post {
     @Column(name = "points")
     private int points;
 
-    @Column(name = "isHide")
-    private boolean isHide;
+//    @Column(name = "isHide")
+//    private boolean isHide;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -104,13 +104,13 @@ public class Post {
         return text;
     }
 
-    public boolean isHide() {
-        return isHide;
-    }
-
-    public void setHide(boolean hide) {
-        isHide = hide;
-    }
+//    public boolean isHide() {
+//        return isHide;
+//    }
+//
+//    public void setHide(boolean hide) {
+//        isHide = hide;
+//    }
 
     public void setText(String text) {
         this.text = text;
@@ -141,7 +141,7 @@ public class Post {
                 ", text='" + text + '\'' +
                 ", userName='" + userName + '\'' +
                 ", points=" + points +
-                ", isHide=" + isHide +
+//                ", isHide=" + isHide +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", comments=" + comments +

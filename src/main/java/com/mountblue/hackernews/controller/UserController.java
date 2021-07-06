@@ -40,6 +40,6 @@ public class UserController {
         userService.saveUser(user);
         String accountCreationMessage = "Thanks for creating Account";
         model.addAttribute("accountCreationMessage", accountCreationMessage);
-        return "userLogin";
+        return "redirect:/login";
     }
 }

@@ -49,9 +49,9 @@ public class PostController {
     }
 
     @PostMapping("/addpost")
-    public String addPost(@ModelAttribute("post") Post post ,Authentication authentication) {
+    public String addPost(@ModelAttribute("post") Post post, Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
-        System.out.println(user+"<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(user + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         post.setUserName(user.getName());
         postService.savePost(post);
         return "redirect:/";
@@ -64,10 +64,16 @@ public class PostController {
     }
 
     @GetMapping("/post/{id}")
-    public String showPost(@PathVariable("id") Integer id, Model model) {
+    public String showPost(@PathVariable("id") Integer id, Model model, Authentication authentication) {
         Comment comment = new Comment();
         model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comment", comment);
+        if (authentication != null) {
+            User user = userService.findByEmail(authentication.getName());
+            model.addAttribute("user", user);
+        } else {
+            model.addAttribute("user",new User());
+        }
         return "viewpost";
     }
 
@@ -102,7 +108,7 @@ public class PostController {
         System.out.println("in hide post");
         Post post = postService.getPostById(postId);
         System.out.println(post);
-        post.setHide(true);
+//        post.setHide(true);
         //System.out.println("after set t_____________________________________________" + post);
         postService.savePost(post);
         return "redirect:/";
@@ -112,7 +118,7 @@ public class PostController {
     public String unhidePostById(@PathVariable("id") int postId) {
         Post post = postService.getPostById(postId);
 
-        post.setHide(false);
+//        post.setHide(false);
         postService.savePost(post);
         return "redirect:/";
     }
@@ -151,11 +157,11 @@ public class PostController {
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             if (user.getRole().equals("ROLE_ADMIN")) {
-                model.addAttribute("user",user);
+                model.addAttribute("user", user);
                 return "admindashboard";
             } else if (user.getRole().equals("ROLE_USER")) {
-                model.addAttribute("user",user);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>"+user.getName());
+                model.addAttribute("user", user);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + user.getName());
                 return "userdashboard";
             }
         }

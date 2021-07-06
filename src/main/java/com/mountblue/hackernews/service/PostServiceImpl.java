@@ -24,7 +24,7 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void savePost(Post post) {
-        post.setHide(false);
+//        post.setHide(false);
         postRepository.save(post);
     }
 

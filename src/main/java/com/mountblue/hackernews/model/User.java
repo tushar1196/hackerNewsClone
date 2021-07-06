@@ -11,16 +11,16 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
-    private boolean isVoted;
+//    private boolean isVoted;
     private String role;
 
-    public boolean isVoted() {
-        return isVoted;
-    }
-
-    public void setVoted(boolean voted) {
-        isVoted = voted;
-    }
+//    public boolean isVoted() {
+//        return isVoted;
+//    }
+//
+//    public void setVoted(boolean voted) {
+//        isVoted = voted;
+//    }
 
     public String getRole() {
         return role;
@@ -69,7 +69,7 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", isVoted=" + isVoted +
+//                ", isVoted=" + isVoted +
                 ", role='" + role + '\'' +
                 '}';
     }

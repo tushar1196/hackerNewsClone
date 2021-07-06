@@ -9,8 +9,6 @@
     color: black;
     }
 
-
-
     </style>
 </head>
 <body>
@@ -31,7 +29,9 @@
     <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
 
         <input type="text" th:field="*{id}" hidden><br><br>
-        <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
+<!--        <div th:if="">-->
+            <input type="text" th:field="*{name}" placeholder="Name" size="50" required><br><br>
+<!--        </div>-->
         <input type="text" th:field="*{email}" placeholder="Email Id" size="50" required><br><br>
         <textarea rows="10" cols="111" th:field="*{description}"></textarea><br><br>
 
@@ -42,14 +42,17 @@
         <h2 th:text="${comment.name}"></h2>
         <h5 th:text="${comment.createdAt}"></h5>
         <h5 th:text="${comment.description}"></h5>
+        <div th:if="${comment.name==user.name}">
+            <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
+                <input type="submit" value="delete comment">
+            </form>
+        </div>
+        <div th:if="${comment.name==userName}">
+            <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
 
-        <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
-            <input type="submit" value="delete comment">
-        </form>
-        <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}" th:method="get">
-
-            <input type="submit" value="update comment">
-        </form>
+                <input type="submit" value="update comment">
+            </form>
+        </div>
     </div>
 </div>
 </body>
