@@ -14,8 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Timestamp;
 import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -55,7 +56,10 @@ public class PostController {
     public String addPost(@ModelAttribute("post") Post post, Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
         System.out.println(user + "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+        System.out.println(post.getId());
         post.setUserName(user.getName());
+        post.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
+        post.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         postService.savePost(post);
         return "redirect:/";
     }
@@ -106,25 +110,25 @@ public class PostController {
         return "redirect:/";
     }
 
-    @GetMapping("/hide/{id}")
-    public String hidePostById(@PathVariable("id") int postId) {
-        System.out.println("in hide post");
-        Post post = postService.getPostById(postId);
-        System.out.println(post);
-//        post.setHide(true);
-        //System.out.println("after set t_____________________________________________" + post);
-        postService.savePost(post);
-        return "redirect:/";
-    }
-
-    @GetMapping("/unhide/{id}")
-    public String unhidePostById(@PathVariable("id") int postId) {
-        Post post = postService.getPostById(postId);
-
-//        post.setHide(false);
-        postService.savePost(post);
-        return "redirect:/";
-    }
+//    @GetMapping("/hide/{id}")
+//    public String hidePostById(@PathVariable("id") int postId) {
+//        System.out.println("in hide post");
+//        Post post = postService.getPostById(postId);
+//        System.out.println(post);
+////        post.setHide(true);
+//        //System.out.println("after set t_____________________________________________" + post);
+//        postService.savePost(post);
+//        return "redirect:/";
+//    }
+//
+//    @GetMapping("/unhide/{id}")
+//    public String unhidePostById(@PathVariable("id") int postId) {
+//        Post post = postService.getPostById(postId);
+//
+////        post.setHide(false);
+//        postService.savePost(post);
+//        return "redirect:/";
+//    }
 
     @GetMapping("/deletepost/{postId}")
     public String deletePostById(@PathVariable("postId") int postId) {
@@ -192,24 +196,26 @@ public class PostController {
                          @RequestParam("search") String search, Model model) {
         //  List<Comment> commentsList=commentService.getCommentBySearch(search);
 
+        boolean popular = by.equals("popular") || startDate.isEmpty() || endDate.isEmpty();
+        boolean date = by.equals("date") || startDate.isEmpty() || endDate.isEmpty();
         if (selected.equals("comments")) {
             model.addAttribute("search", search);
-            if (by.equals("date") || startDate.isEmpty() || endDate.isEmpty()) {
+            if (date) {
                 System.out.println(startDate + " " + endDate);
                 List<Comment> commentsList = commentService.getCommentsByKeyWord(search, startDate, endDate);
                 model.addAttribute("comments", commentsList);
-            } else if (by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()) {
+            } else if (popular) {
                 System.out.println(startDate + " " + endDate);
                 List<Comment> commentsList = commentService.getCommentByKeyWordWithPoints(search, startDate, endDate);
                 model.addAttribute("comments", commentsList);
             }
         } else if (selected.equals("stories")) {
             model.addAttribute("search", search);
-            if (by.equals("date") || startDate.isEmpty() || endDate.isEmpty()) {
+            if (date) {
                 //System.out.println(startDate+" "+endDate);
                 List<Post> postsList = postService.getPostByKeyWord(search, startDate, endDate);
                 model.addAttribute("postslist", postsList);
-            } else if (by.equals("popular") || startDate.isEmpty() || endDate.isEmpty()) {
+            } else if (popular) {
                 System.out.println(startDate + " " + endDate);
                 List<Post> postsList = postService.getPostByKeyWordWithPoints(search, startDate, endDate);
                 model.addAttribute("postslist", postsList);
