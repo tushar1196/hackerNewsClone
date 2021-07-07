@@ -28,7 +28,7 @@ public class UserController {
     @PostMapping("/saveuser")
     public String saveUser(@ModelAttribute("user") User user, Model model) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        user.setRole("ROLE_ADMIN");
+        user.setRole("ROLE_USER");
         userService.saveUser(user);
         String accountCreationMessage = "Thanks for creating Account";
         model.addAttribute("accountCreationMessage", accountCreationMessage);
