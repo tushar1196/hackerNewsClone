@@ -12,8 +12,11 @@
 </head>
 <body>
 <div style="background-color:red; padding: 11px 16px">
-    <h1>Submit</h1>
+    <h1>Add Post</h1>
 </div>
+<div align="right"><a href="/">
+    <button style="background-color:black;color:white;width:150px;height:30px;">Home</button>
+</a></div>
 <br>
 <div style="background-color:silver;padding: 11px 16px">
     <form th:action="@{/addpost}" th:object="${post}" method="post">
