@@ -15,7 +15,6 @@
     <h1>Submit</h1>
 </div>
 <br>
-in add post form
 <div style="background-color:silver;padding: 11px 16px">
     <form th:action="@{/addpost}" th:object="${post}" method="post">
         <input type="text" th:field="*{id}" hidden>
