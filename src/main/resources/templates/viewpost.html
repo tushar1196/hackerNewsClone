@@ -14,12 +14,11 @@
 <div style="background-color:red; padding: 11px 16px">
     <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/ask}">News | </a>
-    <a th:href="@{/ask}">Show | </a>
+    <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br>
-<div style="background-color:#f6f6ef; padding: 11px 16px">
+<div style="background-color:#FB693F; padding: 11px 16px">
     <h3 th:text="${post.title}" th:align="left"></h3><br>
     <p th:text="${post.text}" th:align="left"></p>
     <form action="#" th:action="@{/save/{id}(id=${post.id})}" th:object="${comment}" th:method="post">
