@@ -67,19 +67,28 @@ public class CommentController {
     }
 
     @GetMapping("/upvotecomment/{commentId}/{postId}")
-    public String upvoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+    public String upvoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId, Authentication authentication) {
         Comment comment = commentService.getCommentById(commentId);
-        comment.setPoints(comment.getPoints() + 1);
-        commentService.saveComment(comment);
+        User user = userService.findByEmail(authentication.getName());
+        if (!(comment.getUsersVotedUp().contains(user))) {
+            comment.getUsersVotedUp().add(user);
+            comment.setPoints(comment.getPoints() + 1);
+            commentService.saveComment(comment);
+        }
+
         return "redirect:/post/" + postId;
     }
 
     @GetMapping("/downvotecomment/{commentId}/{postId}")
-    public String downVoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+    public String downVoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId,
+                                  Authentication authentication) {
         Comment comment = commentService.getCommentById(commentId);
-        comment.setPoints(comment.getPoints() - 1);
-        commentService.saveComment(comment);
+        User user = userService.findByEmail(authentication.getName());
+        if ((comment.getUsersVotedUp().contains(user))) {
+            comment.getUsersVotedUp().remove(user);
+            comment.setPoints(comment.getPoints() - 1);
+            commentService.saveComment(comment);
+        }
         return "redirect:/post/" + postId;
     }
-
 }

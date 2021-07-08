@@ -86,19 +86,61 @@ public class PostController {
         return "viewpost";
     }
 
+    @GetMapping("/hide/{postId}")
+    public String hidePost(@PathVariable("postId") int postId,Authentication authentication) {
+        Post post = postService.getPostById(postId);
+        User user = userService.findByEmail(authentication.getName());
+        if (!(post.getHideByUsers().contains(user))) {
+            post.getHideByUsers().add(user);
+            postService.savePost(post);
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/showhidepost/")
+    public String showHidePostsByUser(Model model,Authentication authentication) {
+        List<Post> posts = postService.findAll();
+        User user = userService.findByEmail(authentication.getName());
+        model.addAttribute("user",user);
+        model.addAttribute("listOfPost",posts);
+        return "hidepostsdashboard";
+    }
+
+    @GetMapping("/unhide/{postId}")
+    public String unHidePost(@PathVariable("postId") int postId,Authentication authentication,Model model) {
+        Post post = postService.getPostById(postId);
+        User user = userService.findByEmail(authentication.getName());
+        if ((post.getHideByUsers().contains(user))) {
+            post.getHideByUsers().remove(user);
+            postService.savePost(post);
+        }
+        List<Post> posts = postService.findAll();
+        model.addAttribute("user",user);
+        model.addAttribute("listOfPost",posts);
+        return "hidepostsdashboard";
+    }
+
     @GetMapping("/upvote/{id}")
     public String vote(@PathVariable("id") int postId, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints() + 1);
-        postService.savePost(post);
+        if (!(post.getUsersVotedUp().contains(user))) {
+            post.getUsersVotedUp().add(user);
+            post.setPoints(post.getPoints() + 1);
+            postService.savePost(post);
+        }
         return "redirect:/";
     }
 
     @GetMapping("/downvote/{id}")
     public String unVote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints() - 1);
-        postService.savePost(post);
+        User user = userService.findByEmail(authentication.getName());
+        if (post.getUsersVotedUp().contains(user)) {
+            post.getUsersVotedUp().remove(user);
+            post.setPoints(post.getPoints() - 1);
+            postService.savePost(post);
+        }
         return "redirect:/";
     }
 

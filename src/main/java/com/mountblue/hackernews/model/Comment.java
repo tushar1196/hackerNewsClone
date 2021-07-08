@@ -2,6 +2,7 @@ package com.mountblue.hackernews.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Table(name = "comments")
@@ -28,6 +29,26 @@ public class Comment {
 
     @Column(name = "updated_at")
     private Timestamp updatedAt;
+
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "comment_vote_up",
+            joinColumns = {@JoinColumn(name = "comment_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @JoinTable(name = "answer_vote_up",
+//            joinColumns = @JoinColumn(name = "answer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> usersVotedUp;
+
+    public List<User> getUsersVotedUp() {
+        return usersVotedUp;
+    }
+
+    public void setUsersVotedUp(List<User> usersVotedUp) {
+        this.usersVotedUp = usersVotedUp;
+    }
 
     public int getPoints() {
         return points;
@@ -95,6 +116,7 @@ public class Comment {
                 ", description='" + description + '\'' +
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
+                ", usersVotedUp=" + usersVotedUp +
                 '}';
     }
 }
