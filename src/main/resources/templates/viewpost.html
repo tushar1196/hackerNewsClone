@@ -11,11 +11,10 @@
     </style>
 </head>
 <body>
-<div style="background-color:red; padding: 11px 16px">
+<div style="background-color:#FB693F; padding: 11px 16px">
     <a th:href="@{/}">Hacker News |</a>
     <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/ask}">News | </a>
-    <a th:href="@{/ask}">Show | </a>
+    <a th:href="@{/show}">Show | </a>
     <a th:href="@{/postform}">Submit</a>
 </div>
 <br>
@@ -57,8 +56,24 @@
                     </form>
                 </div>
             </td>
+            <td>
+                <div >
+                    <form action="#" th:action="@{'/addReply/'+${comment.id}+'/'+${post.id}}" th:method="get">
+                        <input type="submit" value="reply">
+                    </form>
+                </div>
+            </td>
         </table>
+            <div style="margin-left:100px;" th:each="rep : ${reply}">
+            <span th:if="${rep.commentId==comment.id}">
+                <p th:text="${rep.reply}"></p>
+            </span>
+                <!--h3 th:text="${comment.description}"></h3-->
+            </div>
+
+
     </div>
+
 </div>
 </body>
 </html>

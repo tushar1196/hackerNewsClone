@@ -3,6 +3,7 @@ package com.mountblue.hackernews.service;
 import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.repository.CommentRepository;
 import com.mountblue.hackernews.repository.PostRepository;
+import com.mountblue.hackernews.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private ReplyRepository repository;
 
     @Override
     public void saveComment(Comment comment) {

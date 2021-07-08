@@ -2,6 +2,7 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.model.Post;
+import com.mountblue.hackernews.model.Reply;
 import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;

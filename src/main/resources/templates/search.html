@@ -46,7 +46,7 @@
         <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
            th:href="@{'/post/' + ${post.id}}"></a>
     </h2>
-    <span th:text="${post.points}+ ' points' + ' username ' + ' created At : ' +${post.createdAt}"></span><br>
+    <span th:text="${post.points}+ ' points' + ' created by: ' + ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
     <p><a th:href="@{'/post/'+${post.id}}"> Comment |</a></p>
     <br><br>
 </div>
