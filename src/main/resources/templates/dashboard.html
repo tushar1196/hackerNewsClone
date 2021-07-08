@@ -12,51 +12,73 @@
         display: float-right;
         }
 
+
+
+
+
+
+
+
+
+
+
+
+
     </style>
 </head>
 <body>
-<div style="background-color:#FB693F; padding: 11px 16px">
-    <a th:href="@{/}">Hacker News |</a>
-    <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/show}">Show | </a>
-    <a th:href="@{/postform}">Submit |</a>
-    <a th:href="@{/login}">Login |</a>
-    <a th:href="@{/register}">Register</a>
-    <div style="float: right ">
-        <form action="#" th:action="@{/search}" th:method="get">
-            <input type="text" th:name="search" placeholder="search" required>
-            <input type="submit" value="search">
-        </form>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+    <div style="background-color:#FB693F; padding: 11px 16px">
+        <a th:href="@{/}">Hacker News |</a>
+        <a th:href="@{/ask}">Ask | </a>
+        <a th:href="@{/show}">Show | </a>
+        <a th:href="@{/postform}">Submit |</a>
+        <a th:href="@{/login}">Login |</a>
+        <a th:href="@{/register}">Register</a>
+        <div style="float: right ">
+            <form action="#" th:action="@{/search}" th:method="get">
+                <input type="text" th:name="search" placeholder="Enter keyword to search" required>
+                <input type="submit" value="search">
+            </form>
+        </div>
     </div>
-</div>
-<br>
-<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">
-    <button>Sort by Date</button></a>
-<div th:each="post: ${listOfPost}">
-    <div>
-        <h2>
-            <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-               th:href="${post.url}"></a>
-            <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-               th:href="@{'/post/' + ${post.id}}"></a>
-        </h2>
-        <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
-        <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
-        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
-        <br><br>
-    </div>
-    <br><br>
-</div>
-<div th:if="${totalPages > 1}">
+    <br>
+    <div style="margin-left:50px;margin-right:50px">
+        <a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">
+            <button style="background-color:DarkSlateGray;width:150px;height:30px;color:white">Sort by Date</button>
+        </a>
+        <div th:each="post: ${listOfPost}">
+            <div>
+                <h2>
+                    <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                       th:href="${post.url}"></a>
+                    <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                       th:href="@{'/post/' + ${post.id}}"></a>
+                </h2>
+                <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+
+                <a style="color:FireBrick;" th:href="@{'/upvote/'+${post.id}}">UpVote</a> &ensp;|&ensp;
+                <a style="color:FireBrick;" th:href="@{'/downvote/'+${post.id}}">DownVote</a> &ensp;|&ensp;
+                <a style="color:FireBrick;" th:href="@{'/post/'+${post.id}}">Comment</a> &ensp;|&ensp;
+                <hr style="color:MidnightBlue">
+            </div>
+        </div>
+        <div align="center" th:if="${totalPages > 1}">
          <span th:each="i: ${#numbers.sequence(1, totalPages)}">
             <a th:if="${currentPage !=i}"
-               th:href="@{'/page/'+ ${i} + '?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
-            <span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;&nbsp;
+               th:href="@{'/page/'+ ${i} + '?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}"><button
+                    style="background-color:Wheat;height:30px;width:30px">[[${i}]]</button></a>
+             <span th:unless="${currentPage !=i}"><button
+                     style="background-color:Wheat;height:30px;width:30px">[[${i}]]</button></span> &nbsp;&nbsp;
         </span>
-    <a th:if="${currentPage < totalPages}"
-       th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">next</a>
-    <span th:unless="${currentPage < totalPages}">Last</span>
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">
+                <button style="background-color:Wheat;height:30px;">Next</button>
+            </a>
+            <span th:unless="${currentPage < totalPages}">Last</span>
+            <br><br>
+        </div>
+    </div>
 </div>
 </body>
 </html>
