@@ -43,11 +43,23 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinTable(name = "post_users",
+    @JoinTable(name = "post_vote_up",
             joinColumns = {@JoinColumn(name = "post_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-    private List<User> users;
+//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+//    @JoinTable(name = "answer_vote_up",
+//            joinColumns = @JoinColumn(name = "answer_id"),
+//            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> usersVotedUp;
+
+    public List<User> getUsersVotedUp() {
+        return usersVotedUp;
+    }
+
+    public void setUsersVotedUp(List<User> usersVotedUp) {
+        this.usersVotedUp = usersVotedUp;
+    }
 
     public int getId() {
         return id;
@@ -133,6 +145,8 @@ public class Post {
                 ", createdAt=" + createdAt +
                 ", updatedAt=" + updatedAt +
                 ", comments=" + comments +
+                ", users=" + usersVotedUp +
                 '}';
     }
+
 }

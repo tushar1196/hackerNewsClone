@@ -79,17 +79,25 @@ public class PostController {
 
     @GetMapping("/upvote/{id}")
     public String vote(@PathVariable("id") int postId, Authentication authentication) {
+        User user = userService.findByEmail(authentication.getName());
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints() + 1);
-        postService.savePost(post);
+        if (!(post.getUsersVotedUp().contains(user))) {
+            post.getUsersVotedUp().add(user);
+            post.setPoints(post.getPoints() + 1);
+            postService.savePost(post);
+        }
         return "redirect:/";
     }
 
     @GetMapping("/downvote/{id}")
     public String unVote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
-        post.setPoints(post.getPoints() - 1);
-        postService.savePost(post);
+        User user = userService.findByEmail(authentication.getName());
+        if (post.getUsersVotedUp().contains(user)) {
+            post.getUsersVotedUp().remove(user);
+            post.setPoints(post.getPoints() - 1);
+            postService.savePost(post);
+        }
         return "redirect:/";
     }
 
