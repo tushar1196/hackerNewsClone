@@ -56,8 +56,24 @@
                     </form>
                 </div>
             </td>
+            <td>
+                <div >
+                    <form action="#" th:action="@{'/addReply/'+${comment.id}+'/'+${post.id}}" th:method="get">
+                        <input type="submit" value="reply">
+                    </form>
+                </div>
+            </td>
         </table>
+            <div style="margin-left:100px;" th:each="rep : ${reply}">
+            <span th:if="${rep.commentId==comment.id}">
+                <p th:text="${rep.reply}"></p>
+            </span>
+                <!--h3 th:text="${comment.description}"></h3-->
+            </div>
+
+
     </div>
+
 </div>
 </body>
 </html>

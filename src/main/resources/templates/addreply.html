@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymLeaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reply</title>
+</head>
+<body>
+<div style="background-color:#FB693F">
+   <h1> Add reply </h1>
+</div>
+
+<div style="background-color:#f6f6ef; padding: 11px 16px">
+  <h3 th:text="${post.title}" th:align="left"></h3><br>
+  <p th:text="${post.text}" th:align="left"></p>
+  <form action="#" th:action="@{/addReply/{id}(id=${post.id})}"  th:method="post">
+      <input type="hidden" th:name="commentId" th:value="${commentId}" ><br><br>
+
+    <textarea rows="10" cols="111" th:name="reply" required></textarea><br><br>
+    <input type="submit" value="save reply" size="60">
+  </form>
+</div>
+</body>
+</html>

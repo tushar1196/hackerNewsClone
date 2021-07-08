@@ -2,9 +2,11 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.model.Comment;
+import com.mountblue.hackernews.model.Reply;
 import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
+import com.mountblue.hackernews.service.ReplyService;
 import com.mountblue.hackernews.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -28,6 +30,9 @@ public class PostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ReplyService replyService;
 
     @GetMapping("/")
     public String home(Model model, Authentication authentication) {
@@ -66,8 +71,12 @@ public class PostController {
     @GetMapping("/post/{id}")
     public String showPost(@PathVariable("id") Integer id, Model model, Authentication authentication) {
         Comment comment = new Comment();
-        model.addAttribute("post", postService.getPostById(id));
+        Post post=postService.getPostById(id);
+        List<Reply> reply=replyService.getAllReplies();
+        model.addAttribute("post",post);
         model.addAttribute("comment", comment);
+        model.addAttribute("reply", reply);
+
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             model.addAttribute("user", user);
