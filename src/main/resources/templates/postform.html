@@ -8,31 +8,42 @@
     text-decoration: none;
     color: black;
     }
+    input{
+    height:30px;
+    }
+    h4{
+    color:red;
+    }
+
     </style>
 </head>
 <body>
-<div style="background-color:#FB693F; padding: 11px 16px">
-    <h1>Add Post</h1>
-</div>
-<div align="right"><a href="/">
-    <button style="background-color:black;color:white;width:150px;height:30px;">Home</button>
-</a></div>
-<br>
-<div style="background-color:silver;padding: 11px 16px">
-    <form th:action="@{/addpost}" th:object="${post}" method="post">
-        <input type="text" th:field="*{id}" hidden>
-        <label>Title</label><br>
-        <input th:type="text" th:field="*{title}" placeholder="write title here" required><br>
-        <label>Url</label><br>
-        <input th:type="url" th:field="*{url}" placeholder="write title here"><br>
-        <h4>or</h4>
-        <label>Text</label><br>
-        <textarea rows="10" cols="90" th:field="*{text}"></textarea><br>
-        <input type="submit" value="submit"><br>
-        <h4>Leave url blank to submit a question for discussion. If there is no url,
-            the text (if any) will appear at the top of the dashboard.</h4><br>
-        <h4>If you want to ask then start title with Ask HN: ,& If you want to show then start title with Show HN:</h4>
-    </form>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+    <div style="background-color:#FB693F;height:50px;">
+        <h1 style="margin-left:50px">Add Post</h1>
+    </div>
+    <div style="float:right"><a href="/">
+        <button style="background-color:black;color:white;width:150px;height:30px;">Home</button>
+    </a></div>
+    <br>
+    <div style="margin-left:50px;margin-right:50px">
+        <form th:action="@{/addpost}" th:object="${post}" method="post">
+            <input type="text" th:field="*{id}" hidden>
+            <label>Title</label><br>
+            <input th:type="text" th:field="*{title}" placeholder="write title here" required><br>
+            <label>Url</label><br>
+            <input th:type="url" th:field="*{url}" placeholder="write url here"><br>
+            <h2>or</h2>
+            <label>Text</label><br>
+            <textarea rows="10" cols="90" th:field="*{text}" placeholder="description"></textarea><br>
+            <br>
+            <input style="background-color:SeaGreen;color:white;width:100px;height:40px" type="submit" value="Save"><br>
+            <h4>If you want to ask a question then start title with Ask HN: ,& If you want to show a post then start
+                title with Show HN:</h4>
+            <h4>Leave url blank to submit a question for discussion.</h4><br>
+        </form>
+        <br><br>
+    </div>
 </div>
 </body>
 </html>

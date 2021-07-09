@@ -1,32 +1,47 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymLeaf.org">
+<html lang="en" xmlns:th="http://www.thymLeaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
-    <title>Show</title>
+    <title>Ask</title>
     <style>
     a{
     text-decoration: none;
     color: black;
     }
+    .anchorTag{
+        color:FireBrick;
+    }
+
+
     </style>
 </head>
 <body>
-<div style="background-color:#FB693F; padding: 11px 16px">
-    <a th:href="@{/}">Hacker News |</a>
-    <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/show}">Show | </a>
-    <a th:href="@{/postform}">Submit |</a>
-</div>
-<br><br>
-<div th:each="post: ${postByShowHN}">
-    <div>
-        <h2><a th:text="${post.title}" th:href="${post.url}"></a></h2>
-        <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At :
-        ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
-        <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
-        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
-        <br><br>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+    <div style="background-color:#FB693F; padding: 11px 16px">
+        <a th:href="@{/}">Hacker News |</a>
+        <a th:href="@{/ask}">Ask | </a>
+        <a th:href="@{/show}">Show | </a>
+        <a th:href="@{/postform}">Submit |</a>
+        <div style="float: right ">
+            <form action="#" th:action="@{/search}" th:method="get">
+                <input type="text" th:name="search" placeholder="Enter keyword to search" required>
+                <input type="submit" value="search">
+            </form>
+        </div>
+    </div>
+    <div style="margin-left:50px;margin-right:50px">
+        <!--        <hr style="color:MidnightBlue">-->
+        <div th:each="post: ${postByShowHN}">
+            <div>
+                <h2><a th:text="${post.title}" th:href="@{'/post/' + ${post.id}}"></a></h2>
+                <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : '
+        +${post.createdAt}"></span><br>
+                <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote</a>&ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote</a>&ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/post/'+${post.id}}"> Comment</a>&ensp;|&ensp;
+                <hr style="color:MidnightBlue">
+            </div>
+        </div>
     </div>
     <br><br>
 </div>
