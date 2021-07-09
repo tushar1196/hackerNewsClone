@@ -11,47 +11,58 @@
         div{
         display: float-right;
         }
+         .anchorTag {
+        color:FireBrick;
+        }
+
     </style>
 </head>
 <body>
-<div style="background-color:#FB693F; padding: 11px 16px">
-    <a th:href="@{/}">Hacker News</a>
-</div>
-<br>
-<div>
-    <form action="#" th:action="@{/filter}" method="post">
-        <label>Filter</label>
-        <input type="hidden" th:name="search" th:value="${search}">
-        <select name="type">
-            <option th:value="stories">stories</option>
-            <option th:value="comments">comments</option>
-        </select>
-        <label>by</label>
-        <select name="by">
-            <option th:value="popular ">popular</option>
-            <option th:value="date">date</option>
-        </select>
-        <label>from</label>
-        <input type="datetime-local" th:name="startdatetime" placeholder=" "/>
-        <label>to</label>
-        <input type="datetime-local" th:name="enddatetime" placeholder=" "/>
-        <input type="submit" value="Apply">
-    </form>
-</div>
-<div th:each="post: ${postslist}">
-
-    <h2>
-        <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-           th:href="${post.url}"></a>
-        <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-           th:href="@{'/post/' + ${post.id}}"></a>
-    </h2>
-    <span th:text="${post.points}+ ' points' + ' created by: ' + ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
-    <p><a th:href="@{'/post/'+${post.id}}"> Comment |</a></p>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+    <div style="background-color:#FB693F; padding: 11px 16px">
+        <a th:href="@{/}">Hacker News</a>
+    </div>
+    <br>
+    <div style="margin-left:50px;margin-right:50px">
+        <div>
+            <form action="#" th:action="@{/filter}" method="post">
+                <label>Filter</label>
+                <input type="hidden" th:name="search" th:value="${search}">
+                <select name="type">
+                    <option th:value="stories">stories</option>
+                    <option th:value="comments">comments</option>
+                </select>
+                <label>by</label>
+                <select name="by">
+                    <option th:value="popular ">popular</option>
+                    <option th:value="date">date</option>
+                </select>
+                <label>from</label>
+                <input type="datetime-local" th:name="startdatetime" placeholder=" "/>
+                <label>to</label>
+                <input type="datetime-local" th:name="enddatetime" placeholder=" "/>
+                <input type="submit" value="Apply">
+            </form>
+        </div>
+        <hr style="color:MidnightBlue">
+        <div th:each="post: ${postslist}">
+            <h2>
+                <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                   th:href="${post.url}"></a>
+                <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                   th:href="@{'/post/' + ${post.id}}"></a>
+            </h2>
+            <span th:text="${post.points}+ ' points' + ' created by: ' + ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+            <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote</a>&ensp;|&ensp;
+            <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote</a>&ensp;|
+            <a class="anchorTag" th:href="@{'/post/'+${post.id}}"> Comment</a>
+            <hr style="color:MidnightBlue">
+        </div>
+        <div th:each="comm: ${comments}">
+            <p th:text="${comm.description}"></p>
+        </div>
+    </div>
     <br><br>
-</div>
-<div th:each="comm: ${comments}">
-    <p th:text="${comm.description}"></p>
 </div>
 </body>
 </html>

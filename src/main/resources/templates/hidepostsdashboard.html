@@ -11,59 +11,50 @@
         div{
         display: float-right;
         }
+        .anchorTag {
+        color:FireBrick;
+        }
     </style>
 </head>
 <body>
-<div style="background-color:#FB693F; padding: 11px 16px">
-    <a th:href="@{/}">Hacker News |</a>
-    <a th:href="@{/ask}">Ask | </a>
-    <a th:href="@{/show}">Show | </a>
-    <a th:href="@{/postform}">Submit |</a>
-    <a th:href="@{/logout}">Logout |</a>
-    <a th:text="'#'+${user.name}"></a>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+    <div style="background-color:#FB693F; padding: 11px 16px">
+        <a th:href="@{/}">Hacker News |</a>
+        <a th:href="@{/ask}">Ask | </a>
+        <a th:href="@{/show}">Show | </a>
+        <a th:href="@{/postform}">Submit |</a>
+        <a th:href="@{/logout}">Logout |</a>
+        <a th:text="'#'+${user.name}"></a>
 
-    <div style="float: right ">
-        <form action="#" th:action="@{/search}" th:method="get">
-            <input type="text" th:name="search" placeholder="search" required>
-            <input type="submit" value="search">
-        </form>
+        <div style="float: right ">
+            <form action="#" th:action="@{/search}" th:method="get">
+                <input type="text" th:name="search" placeholder="search" required>
+                <input type="submit" value="search">
+            </form>
+        </div>
     </div>
-</div>
-<br>
-<a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">
-    <button>Sort by Date</button>
-</a>
-<div style="float:right"><a th:href="@{/showhidepost/}">
-    <button>View Hide Posts</button>
-</a></div>
-<div th:each="post: ${listOfPost}">
-    <div th:if="${#lists.contains(post.hideByUsers,user)}">
-        <h2>
-            <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-               th:href="${post.url}"></a>
-            <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
-               th:href="@{'/post/' + ${post.id}}"></a>
-        </h2>
-        <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
-        <a th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
-        <a th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
-        <a th:href="@{'/post/'+${post.id}}"> Comment |</a>
-        <a th:href="@{'/unhide/'+${post.id}}">UnHide |</a>
-        <a th:if="${user.name==post.userName}" th:href="@{'/deletepost/'+${post.id}}"> Delete |</a>
-        <a th:if="${user.name==post.userName}" th:href="@{'/updatepost/'+${post.id}}"> Update |</a>
-        <br><br>
+    <div style="margin-left:50px;margin-right:50px" th:each="post: ${listOfPost}">
+        <div th:if="${#lists.contains(post.hideByUsers,user)}">
+            <h2>
+                <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                   th:href="${post.url}"></a>
+                <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
+                   th:href="@{'/post/' + ${post.id}}"></a>
+            </h2>
+            <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+            <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote |</a>
+            <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote |</a>
+            <a class="anchorTag" th:href="@{'/post/'+${post.id}}"> Comment |</a>
+            <a class="anchorTag" th:href="@{'/unhide/'+${post.id}}">UnHide |</a>
+            <a class="anchorTag" th:if="${user.name==post.userName}" th:href="@{'/deletepost/'+${post.id}}"> Delete
+                |</a>
+            <a class="anchorTag" th:if="${user.name==post.userName}" th:href="@{'/updatepost/'+${post.id}}"> Update
+                |</a>
+            <hr style="color:MidnightBlue">
+        </div>
     </div>
     <br><br>
 </div>
-<div th:if="${totalPages > 1}">
-         <span th:each="i: ${#numbers.sequence(1, totalPages)}">
-            <a th:if="${currentPage !=i}"
-               th:href="@{'/page/'+ ${i} + '?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">[[${i}]]</a>
-            <span th:unless="${currentPage !=i}">[[${i}]]</span> &nbsp;&nbsp;
-        </span>
-    <a th:if="${currentPage < totalPages}"
-       th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">next</a>
-    <span th:unless="${currentPage < totalPages}">Last</span>
-</div>
+
 </body>
 </html>

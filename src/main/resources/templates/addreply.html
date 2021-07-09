@@ -3,24 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <title>Reply</title>
+    <style>
+        .save {
+    color:SeaGreen;
+    height:30px;
+    }
+
+
+
+    </style>
 </head>
 <body>
+<div style="background-color:Beige;margin-left:20px;margin-right:20px;">
+
 <div style="background-color:#FB693F">
-   <h1> Add reply </h1>
+   <h1 style="margin-left:50px;"> Add Reply </h1>
 </div>
 
-<div style="background-color:#f6f6ef; padding: 11px 16px">
+<div style="margin-left:50px;margin-right:50px">
 
-    <p th:text="${comment.description}"></p>
+    Comment:- <span th:text="${comment.description}"></span>
 
   <form action="#" th:action="@{/addReply/{id}(id=${postId})}" th:object="${helperReply}"  th:method="post">
       <input type="hidden" th:field="*{id}">
       <input type="hidden" th:name="commentId" th:value="${comment.id}" >
       <input type="hidden" th:name="saveorupdate" th:value="${saveOrUpdate}" ><br><br>
 
-      <textarea rows="10" cols="111" th:field="*{description}" required></textarea><br><br>
-    <input type="submit" value="save/edit" size="60">
+      <textarea rows="10" cols="111" th:field="*{description}" placeholder="Enter Reply" required></textarea><br><br>
+    <input class="save" type="submit" value="Save" size="60">
   </form>
+</div>
+    <br><br>
 </div>
 </body>
 </html>
