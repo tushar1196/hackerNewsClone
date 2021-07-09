@@ -11,6 +11,9 @@
         div{
         display: float-right;
         }
+        .anchorTag {
+        color:FireBrick;
+        }
     </style>
 </head>
 <body>
@@ -34,6 +37,7 @@
         <a th:href="@{'/page/' + ${currentPage} + '?sortField=createdAt&sortDirection='+${reverseSortDirection}}">
             <button style="background-color:DarkSlateGray;width:150px;height:30px;color:white">Sort by Date</button>
         </a>
+        <hr style="color:MidnightBlue">
         <div th:each="post: ${listOfPost}">
             <div>
                 <h2>
@@ -44,9 +48,10 @@
                 </h2>
                 <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
 
-                <a style="color:FireBrick;" th:href="@{'/upvote/'+${post.id}}">UpVote</a> &ensp;|&ensp;
-                <a style="color:FireBrick;" th:href="@{'/downvote/'+${post.id}}">DownVote</a> &ensp;|&ensp;
-                <a style="color:FireBrick;" th:href="@{'/post/'+${post.id}}">Comment</a> &ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote</a> &ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote</a> &ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/post/'+${post.id}}">Comment</a> &ensp;|&ensp;
+                <a class="anchorTag" th:href="@{'/hide/'+${post.id}}">Hide</a> &ensp;|&ensp;
                 <hr style="color:MidnightBlue">
             </div>
         </div>
