@@ -13,9 +13,7 @@ public interface CommentService {
 
     void deleteCommentById(Integer id);
 
-    List<Comment> getCommentBySearch(String keyWord);
-
     List<Comment> getCommentsByKeyWord(String keyWord, String startDate, String endDate);
 
-    List<Comment> getCommentByKeyWordWithPoints(String keyWord, String startDate, String endDate);
+    List<Comment> getCommentsByKeyWordWithPoints(String keyWord, String startDate, String endDate);
 }

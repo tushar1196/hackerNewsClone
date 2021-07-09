@@ -52,7 +52,7 @@ public class AppSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/save/**", "/updateCommentForm/**", "/delete/**", "/postform/**"
                         , "/addpost/**", "/upvote/**", "/downvote/**", "/upvotecomment/**", "/downvotecomment/**",
                         "/hide/**", "/unhide/**", "/deletepost/**", "/updatepost/**", "/hide/**", "/unhide/**",
-                        "/showhideposts/**","/addReply/**","/updateReplyForm/**")
+                        "/showhideposts/**", "/addReply/**", "/updateReplyForm/**")
                 .hasAnyRole("ADMIN", "USER")
                 .and()
                 .formLogin()

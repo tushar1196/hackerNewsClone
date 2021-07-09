@@ -2,7 +2,6 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Comment;
 import com.mountblue.hackernews.model.Post;
-import com.mountblue.hackernews.model.Reply;
 import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
@@ -27,17 +26,19 @@ public class CommentController {
     private UserService userService;
 
     @PostMapping("/save/{postId}")
-    public String addComment(@PathVariable("postId") Integer postId, @ModelAttribute("comment") Comment comment, Authentication authentication) {
-        System.out.println("inside save comment");
+    public String saveComment(@PathVariable("postId") int postId, @ModelAttribute("comment") Comment comment,
+                              Authentication authentication) {
         Timestamp instant = Timestamp.from(Instant.now());
+
         if (comment.getCreatedAt() == null) {
             comment.setCreatedAt(instant);
         }
-
         User user = userService.findByEmail(authentication.getName());
+
         comment.setName(user.getName());
         comment.setEmail(user.getEmail());
         comment.setUpdatedAt(instant);
+
         Post post = postService.getPostById(postId);
         post.getComments().add(comment);
         postService.savePost(post);
@@ -45,8 +46,8 @@ public class CommentController {
     }
 
     @GetMapping("/updateCommentForm/{commentId}/{postId}")
-    public String updateCommentForm(Model model, @PathVariable("commentId") Integer commentId,
-                                    @PathVariable("postId") int postId) {
+    public String commentForm(Model model, @PathVariable("commentId") int commentId,
+                              @PathVariable("postId") int postId) {
         Comment comment = commentService.getCommentById(commentId);
         model.addAttribute("comment", comment);
         model.addAttribute("postId", postId);
@@ -54,20 +55,21 @@ public class CommentController {
     }
 
     @PostMapping("/update/{commentId}/{postId}")
-    public String updateComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer
+    public String updateComment(@PathVariable("commentId") int commentId, @PathVariable("postId") int
             postId, @ModelAttribute("comment") Comment comment) {
         commentService.updateCommentById(comment, commentId);
         return "redirect:/post/" + postId;
     }
 
     @PostMapping("/delete/{commentId}/{postId}")
-    public String deleteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId) {
+    public String deleteComment(@PathVariable("commentId") int commentId, @PathVariable("postId") int postId) {
         commentService.deleteCommentById(commentId);
         return "redirect:/post/" + postId;
     }
 
     @GetMapping("/upvotecomment/{commentId}/{postId}")
-    public String upvoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId, Authentication authentication) {
+    public String upVoteComment(@PathVariable("commentId") int commentId, @PathVariable("postId") int postId,
+                                Authentication authentication) {
         Comment comment = commentService.getCommentById(commentId);
         User user = userService.findByEmail(authentication.getName());
         if (!(comment.getUsersVotedUp().contains(user))) {
@@ -80,7 +82,7 @@ public class CommentController {
     }
 
     @GetMapping("/downvotecomment/{commentId}/{postId}")
-    public String downVoteComment(@PathVariable("commentId") Integer commentId, @PathVariable("postId") Integer postId,
+    public String downVoteComment(@PathVariable("commentId") int commentId, @PathVariable("postId") int postId,
                                   Authentication authentication) {
         Comment comment = commentService.getCommentById(commentId);
         User user = userService.findByEmail(authentication.getName());

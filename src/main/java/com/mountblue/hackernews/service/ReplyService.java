@@ -5,10 +5,14 @@ import com.mountblue.hackernews.model.Reply;
 import java.util.List;
 
 public interface ReplyService {
-    public void saveReply(Reply reply);
-    public List<Reply> getReplyByCommentId(Integer commentId);
-    public List<Reply> getAllReplies();
-    public Reply getReplyById(Integer replyId);
-    public void updateReply(Reply reply);
-    public void deleteReply(Integer replyId);
+
+    void saveReply(Reply reply);
+
+    List<Reply> getAllReplies();
+
+    Reply getReplyById(Integer replyId);
+
+    void updateReply(Reply reply);
+
+    void deleteReply(Integer replyId);
 }

@@ -17,20 +17,19 @@ public interface PostRepository extends JpaRepository<Post, Integer> {
     @Query(value = "select * from post where title like 'Show HN:%'", nativeQuery = true)
     List<Post> findAllByShowHN();
 
-    @Query(value = "select * from post  where (title LIKE %?1% OR url Like %?1% OR text LIKE %?1%) AND created_at>=?2 AND" +
-            " created_at<=?3 ORDER BY created_at DESC", nativeQuery = true)
+    @Query(value = "select * from post  where (title LIKE %?1% OR user_name LIKE %?1% OR url Like %?1% OR " +
+            "text LIKE %?1%) AND created_at>=?2 AND created_at<=?3 ORDER BY created_at DESC", nativeQuery = true)
     List<Post> findAllByKeyWordWithTimeDate(String keyWord, Timestamp dateFrom, Timestamp dateTo);
 
-    Post findById(int id);
-
-    @Query(value = "select * from post  where (title LIKE %?1% OR url Like %?1% OR text LIKE %?1%) AND created_at>=?2" +
-            " AND created_at<=?3 ORDER BY points DESC",
-            nativeQuery = true)
+    @Query(value = "select * from post  where (title LIKE %?1% OR user_name LIKE %?1% OR url Like %?1% OR " +
+            "text LIKE %?1%) AND created_at>=?2 AND created_at<=?3 ORDER BY points DESC", nativeQuery = true)
     List<Post> findAllByKeyWordWithPoints(String keyword, Timestamp dateFrom, Timestamp dateTo);
 
-    @Query(value = "select * from post  where title LIKE %?1% OR url Like %?1% OR text LIKE %?1% ORDER BY created_at  DESC", nativeQuery = true)
+    @Query(value = "select * from post  where title LIKE %?1% OR user_name LIKE %?1% OR url Like %?1% OR" +
+            " text LIKE %?1% ORDER BY created_at  DESC", nativeQuery = true)
     List<Post> findAllByKeyWordDescOrder(String keyWord);
 
-    @Query(value = "select * from post  where title LIKE %?1% OR url Like %?1% OR text LIKE %?1% ORDER BY points  DESC", nativeQuery = true)
+    @Query(value = "select * from post  where title LIKE %?1% OR user_name LIKE %?1% OR url Like %?1% OR" +
+            " text LIKE %?1% ORDER BY points  DESC", nativeQuery = true)
     List<Post> findAllByKeyWordPopularDescOrder(String keyWord);
 }

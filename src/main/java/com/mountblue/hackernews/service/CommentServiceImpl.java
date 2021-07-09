@@ -36,19 +36,13 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Comment getCommentById(Integer commentId) {
-        Comment comment = commentRepository.findById(commentId).get();
-        return comment;
+        return commentRepository.findById(commentId).get();
     }
 
     @Override
     public void deleteCommentById(Integer id) {
         Comment comment = commentRepository.findById(id).get();
         commentRepository.delete(comment);
-    }
-
-    @Override
-    public List<Comment> getCommentBySearch(String search) {
-        return commentRepository.findCommentByKeyWord(search);
     }
 
     @Override
@@ -60,11 +54,9 @@ public class CommentServiceImpl implements CommentService {
             Calendar calDateFrom = Calendar.getInstance();
             calDateFrom.setTimeInMillis(dateFrom.getTime());
 
-            // subtract 30 minutes
             calDateFrom.add(Calendar.MINUTE, -30);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
 
-            // subtract 5 hours
             calDateFrom.setTimeInMillis(dateFrom.getTime());
             calDateFrom.add(Calendar.HOUR, -5);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
@@ -72,11 +64,9 @@ public class CommentServiceImpl implements CommentService {
             Calendar calDateTo = Calendar.getInstance();
             calDateTo.setTimeInMillis(dateTo.getTime());
 
-            // subtract 30 minutes
             calDateTo.add(Calendar.MINUTE, -30);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
 
-            // subtract 5 hours
             calDateTo.setTimeInMillis(dateTo.getTime());
             calDateTo.add(Calendar.HOUR, -5);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
@@ -87,7 +77,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Override
-    public List<Comment> getCommentByKeyWordWithPoints(String keyWord, String startDate, String endDate) {
+    public List<Comment> getCommentsByKeyWordWithPoints(String keyWord, String startDate, String endDate) {
         if (!startDate.isEmpty() && !endDate.isEmpty()) {
             Timestamp dateFrom = Timestamp.from(Instant.parse(startDate + ":00.000Z"));
             Timestamp dateTo = Timestamp.from(Instant.parse(endDate + ":00.000Z"));
@@ -95,11 +85,9 @@ public class CommentServiceImpl implements CommentService {
             Calendar calDateFrom = Calendar.getInstance();
             calDateFrom.setTimeInMillis(dateFrom.getTime());
 
-            // subtract 30 minutes
             calDateFrom.add(Calendar.MINUTE, -30);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
 
-            // subtract 5 hours
             calDateFrom.setTimeInMillis(dateFrom.getTime());
             calDateFrom.add(Calendar.HOUR, -5);
             dateFrom = new Timestamp(calDateFrom.getTime().getTime());
@@ -107,16 +95,13 @@ public class CommentServiceImpl implements CommentService {
             Calendar calDateTo = Calendar.getInstance();
             calDateTo.setTimeInMillis(dateTo.getTime());
 
-            // subtract 30 minutes
             calDateTo.add(Calendar.MINUTE, -30);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
 
-            // subtract 5 hours
             calDateTo.setTimeInMillis(dateTo.getTime());
             calDateTo.add(Calendar.HOUR, -5);
             dateTo = new Timestamp(calDateTo.getTime().getTime());
 
-            System.out.println(dateFrom + "    " + dateTo);
             return commentRepository.findAllByKeyWordWithPoints(keyWord, dateFrom, dateTo);
         }
         return commentRepository.findCommentByKeyWord(keyWord);
