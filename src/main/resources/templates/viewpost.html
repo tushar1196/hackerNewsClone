@@ -66,9 +66,27 @@
         </table>
             <div style="margin-left:100px;" th:each="rep : ${reply}">
             <span th:if="${rep.commentId==comment.id}">
-                <p th:text="${rep.reply}"></p>
-            </span>
-                <!--h3 th:text="${comment.description}"></h3-->
+                <p th:text="${rep.description}"></p>
+
+                <table>
+                    <td>
+                        <div th:if="${rep.name==user.name or user.role=='ROLE_ADMIN'}">
+                            <form action="#" th:action="@{'/deleteReply/'+${rep.id}+'/'+${post.id}}" th:method="post">
+                                <input type="submit" value="delete">
+                            </form>
+                        </div>
+                    </td>
+                    <td>
+                        <div th:if="${rep.name==user.name or user.role=='ROLE_ADMIN'}">
+                            <form action="#" th:action="@{'/updateReplyForm/'+${rep.id}+'/'+${post.id}}"
+                                  th:method="get">
+                                <input type="hidden" th:name="commentId" th:value="${comment.id}">
+                                <input type="submit" value="edit">
+                            </form>
+                        </div>
+                    </td>
+                </table>
+                </span>
             </div>
 
 

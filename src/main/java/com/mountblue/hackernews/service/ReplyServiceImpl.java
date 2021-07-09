@@ -28,4 +28,19 @@ public class ReplyServiceImpl implements ReplyService{
     public List<Reply> getAllReplies() {
         return replyRepository.findAll();
     }
+
+    @Override
+    public Reply getReplyById(Integer replyId) {
+        return replyRepository.getReplyById(replyId);
+    }
+
+    @Override
+    public void updateReply(Reply reply) {
+        replyRepository.updateReply(reply.getDescription(), reply.getUpdatedAt(), reply.getId());
+    }
+
+    @Override
+    public void deleteReply(Integer replyId) {
+        replyRepository.deleteReply(replyId);
+    }
 }
