@@ -24,10 +24,6 @@
     color:SeaGreen;
     height:30px;
     }
-
-
-
-
     </style>
 </head>
 <body>
@@ -87,7 +83,7 @@
                     </div>
                 </td>
             </table>
-            <div style="margin-left:100px;" th:each="rep : ${reply}">
+            <div style="margin-left:100px;" th:each="rep : ${replies}">
             <span th:if="${rep.commentId==comment.id}">
                 <h4 th:text="${rep.description}"></h4>
                 <span th:text="'Posted By:- '+${rep.name}+' | Created At:- '+${rep.createdAt}"></span>

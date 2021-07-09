@@ -42,7 +42,7 @@
             <button style="background-color:DarkSlateGray;width:150px;height:30px;color:white">View Hide Posts</button>
         </a>
         <hr style="color:MidnightBlue">
-        <div th:each="post: ${listOfPost}">
+        <div th:each="post: ${posts}">
             <div th:unless="${#lists.contains(post.hideByUsers,user)}">
                 <h2>
                     <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
@@ -50,7 +50,8 @@
                     <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                        th:href="@{'/post/' + ${post.id}}"></a>
                 </h2>
-                <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+                <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : '
+                 +${post.createdAt}"></span><br>
                 <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote</a> &ensp;|&ensp;
                 <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote</a> &ensp;|&ensp;
                 <a class="anchorTag" th:href="@{'/post/'+${post.id}}"> Comment</a> &ensp;|&ensp;
@@ -71,7 +72,8 @@
                      style="background-color:Wheat;height:30px;width:30px">[[${i}]]</button></span> &nbsp;&nbsp;
         </span>
             <a th:if="${currentPage < totalPages}"
-               th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' + ${sortDirection}}">
+               th:href="@{'/page/' +  ${currentPage + 1}+'?sortField=' + ${sortField}+ '&sortDirection=' +
+                ${sortDirection}}">
                 <button style="background-color:Wheat;height:30px;">Next</button>
             </a>
             <span th:unless="${currentPage < totalPages}">Last</span>

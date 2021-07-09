@@ -8,20 +8,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ReplyServiceImpl implements ReplyService{
+public class ReplyServiceImpl implements ReplyService {
 
     @Autowired
     private ReplyRepository replyRepository;
 
-
     @Override
     public void saveReply(Reply reply) {
         replyRepository.save(reply);
-    }
-
-    @Override
-    public List<Reply> getReplyByCommentId(Integer commentId) {
-        return replyRepository.getReplyByCommentId(commentId);
     }
 
     @Override

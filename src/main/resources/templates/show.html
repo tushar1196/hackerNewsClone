@@ -11,8 +11,6 @@
     .anchorTag{
         color:FireBrick;
     }
-
-
     </style>
 </head>
 <body>
@@ -30,8 +28,7 @@
         </div>
     </div>
     <div style="margin-left:50px;margin-right:50px">
-        <!--        <hr style="color:MidnightBlue">-->
-        <div th:each="post: ${postByShowHN}">
+        <div th:each="post: ${postsByShowHN}">
             <div>
                 <h2><a th:text="${post.title}" th:href="@{'/post/' + ${post.id}}"></a></h2>
                 <span th:text="${post.points}+ ' points' +' Created By: '+ ${post.userName} + ' created At : '

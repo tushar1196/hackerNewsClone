@@ -14,17 +14,17 @@ import java.util.List;
 @Repository
 public interface ReplyRepository extends JpaRepository<Reply, Integer> {
     @Query(value = "select * from replies where comment_id=?1", nativeQuery = true)
-    public List<Reply> getReplyByCommentId(Integer commentId);
+    List<Reply> getReplyByCommentId(int commentId);
 
     @Query(value = "select * from replies where id=?1", nativeQuery = true)
-    public Reply getReplyById(Integer replyId);
+    Reply getReplyById(int replyId);
 
     @Modifying
     @Query(value = "update replies set reply=?1, update_at=?2 where id=?3", nativeQuery = true)
-    public void updateReply(String description, Timestamp updatedAt, Integer id);
+    void updateReply(String description, Timestamp updatedAt, int id);
 
     @Modifying
     @Query(value = "delete from replies where id=?1", nativeQuery = true)
-    public void deleteReply(Integer replyId);
+    void deleteReply(int replyId);
 
 }

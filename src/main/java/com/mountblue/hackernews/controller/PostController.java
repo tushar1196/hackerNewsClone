@@ -2,7 +2,6 @@ package com.mountblue.hackernews.controller;
 
 import com.mountblue.hackernews.model.Post;
 import com.mountblue.hackernews.model.Comment;
-import com.mountblue.hackernews.model.Reply;
 import com.mountblue.hackernews.model.User;
 import com.mountblue.hackernews.service.PostService;
 import com.mountblue.hackernews.service.CommentService;
@@ -40,8 +39,8 @@ public class PostController {
     }
 
     @GetMapping("/ask")
-    public String getAllPostByAskHN(Model model, Authentication authentication) {
-        model.addAttribute("postByAskHN", postService.getAllByAskHN());
+    public String getAllPostByAskHN(Model model) {
+        model.addAttribute("postsByAskHN", postService.getAllByAskHN());
         return "ask";
     }
 
@@ -53,29 +52,30 @@ public class PostController {
     }
 
     @PostMapping("/addpost")
-    public String addPost(@ModelAttribute("post") Post post, Authentication authentication) {
+    public String savePost(@ModelAttribute("post") Post post, Authentication authentication) {
         User user = userService.findByEmail(authentication.getName());
+
         post.setUserName(user.getName());
         post.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         post.setUpdatedAt(Timestamp.valueOf(LocalDateTime.now()));
         postService.savePost(post);
+
         return "redirect:/";
     }
 
     @GetMapping("/show")
-    public String getAllShowHN(Model model, Authentication authentication) {
-        model.addAttribute("postByShowHN", postService.getAllByShowHN());
+    public String getAllShowHN(Model model) {
+        model.addAttribute("postsByShowHN", postService.getAllByShowHN());
         return "show";
     }
 
     @GetMapping("/post/{id}")
-    public String showPost(@PathVariable("id") Integer id, Model model, Authentication authentication) {
+    public String showPost(@PathVariable("id") int id, Model model, Authentication authentication) {
         Comment comment = new Comment();
-        Post post=postService.getPostById(id);
-        List<Reply> reply=replyService.getAllReplies();
-        model.addAttribute("post",post);
+
+        model.addAttribute("post", postService.getPostById(id));
         model.addAttribute("comment", comment);
-        model.addAttribute("reply", reply);
+        model.addAttribute("replies", replyService.getAllReplies());
 
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
@@ -87,7 +87,7 @@ public class PostController {
     }
 
     @GetMapping("/hide/{postId}")
-    public String hidePost(@PathVariable("postId") int postId,Authentication authentication) {
+    public String hidePost(@PathVariable("postId") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
         User user = userService.findByEmail(authentication.getName());
         if (!(post.getHideByUsers().contains(user))) {
@@ -98,25 +98,22 @@ public class PostController {
     }
 
     @GetMapping("/showhidepost/")
-    public String showHidePostsByUser(Model model,Authentication authentication) {
-        List<Post> posts = postService.findAll();
-        User user = userService.findByEmail(authentication.getName());
-        model.addAttribute("user",user);
-        model.addAttribute("listOfPost",posts);
+    public String showHidePostsByUser(Model model, Authentication authentication) {
+        model.addAttribute("user", userService.findByEmail(authentication.getName()));
+        model.addAttribute("posts", postService.findAll());
         return "hidepostsdashboard";
     }
 
     @GetMapping("/unhide/{postId}")
-    public String unHidePost(@PathVariable("postId") int postId,Authentication authentication,Model model) {
+    public String unHidePost(@PathVariable("postId") int postId, Authentication authentication, Model model) {
         Post post = postService.getPostById(postId);
         User user = userService.findByEmail(authentication.getName());
         if ((post.getHideByUsers().contains(user))) {
             post.getHideByUsers().remove(user);
             postService.savePost(post);
         }
-        List<Post> posts = postService.findAll();
-        model.addAttribute("user",user);
-        model.addAttribute("listOfPost",posts);
+        model.addAttribute("user", user);
+        model.addAttribute("posts", postService.findAll());
         return "hidepostsdashboard";
     }
 
@@ -133,7 +130,7 @@ public class PostController {
     }
 
     @GetMapping("/downvote/{id}")
-    public String unVote(@PathVariable("id") int postId, Authentication authentication) {
+    public String downVote(@PathVariable("id") int postId, Authentication authentication) {
         Post post = postService.getPostById(postId);
         User user = userService.findByEmail(authentication.getName());
         if (post.getUsersVotedUp().contains(user)) {
@@ -145,13 +142,13 @@ public class PostController {
     }
 
     @GetMapping("/deletepost/{postId}")
-    public String deletePostById(@PathVariable("postId") int postId) {
+    public String deletePost(@PathVariable("postId") int postId) {
         postService.deletePostById(postId);
         return "redirect:/";
     }
 
     @GetMapping("/updatepost/{postId}")
-    public String updatePostById(@PathVariable("postId") int postId, Model model) {
+    public String updatePost(@PathVariable("postId") int postId, Model model) {
         model.addAttribute("post", postService.getPostById(postId));
         return "postform";
     }
@@ -160,10 +157,11 @@ public class PostController {
     @GetMapping("/page/{pageNo}")
     public String paginatedPage(@PathVariable(value = "pageNo") Integer pageNo,
                                 @RequestParam("sortField") String sortField,
-                                @RequestParam("sortDirection") String sortDirection, Model model, Authentication authentication, String nonUser) {
+                                @RequestParam("sortDirection") String sortDirection, Model model,
+                                Authentication authentication, String nonUser) {
         int pageSize = 10;
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
-        List<Post> postsList = page.getContent();
+        List<Post> posts = page.getContent();
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
@@ -171,8 +169,7 @@ public class PostController {
         model.addAttribute("sortField", sortField);
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
-        model.addAttribute("listOfPost", postsList);
-
+        model.addAttribute("posts", posts);
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             if (user.getRole().equals("ROLE_ADMIN")) {
@@ -188,19 +185,16 @@ public class PostController {
 
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
-        List<Post> postsList = postService.getPostByKeyWord(keyWord, "", "");
-        List<Comment> commentsList = commentService.getCommentsByKeyWord(keyWord, "", "");
-
         model.addAttribute("search", keyWord);
-        model.addAttribute("commentslist", commentsList);
-        model.addAttribute("postslist", postsList);
+        model.addAttribute("comments", commentService.getCommentsByKeyWord(keyWord, "", ""));
+        model.addAttribute("posts", postService.getPostByKeyWord(keyWord, "", ""));
         return "search";
     }
 
-    @PostMapping("/filter")
+    @RequestMapping("/filter")
     public String filter(@RequestParam("type") String selected, @RequestParam("by") String by,
-                         @RequestParam(value = "startdatetime", required = false, defaultValue = "") String startDate,
-                         @RequestParam(value = "enddatetime", required = false, defaultValue = "") String endDate,
+                         @RequestParam(value = "startDateTime", required = false, defaultValue = "") String startDate,
+                         @RequestParam(value = "endDateTime", required = false, defaultValue = "") String endDate,
                          @RequestParam("search") String search, Model model) {
 
         boolean popular = by.equals("popular") || startDate.isEmpty() || endDate.isEmpty();
@@ -208,23 +202,16 @@ public class PostController {
         if (selected.equals("comments")) {
             model.addAttribute("search", search);
             if (date) {
-                System.out.println(startDate + " " + endDate);
-                List<Comment> commentsList = commentService.getCommentsByKeyWord(search, startDate, endDate);
-                model.addAttribute("comments", commentsList);
+                model.addAttribute("comments", commentService.getCommentsByKeyWord(search, startDate, endDate));
             } else if (popular) {
-                System.out.println(startDate + " " + endDate);
-                List<Comment> commentsList = commentService.getCommentByKeyWordWithPoints(search, startDate, endDate);
-                model.addAttribute("comments", commentsList);
+                model.addAttribute("comments", commentService.getCommentsByKeyWordWithPoints(search, startDate, endDate));
             }
         } else if (selected.equals("stories")) {
             model.addAttribute("search", search);
             if (date) {
-                List<Post> postsList = postService.getPostByKeyWord(search, startDate, endDate);
-                model.addAttribute("postslist", postsList);
+                model.addAttribute("posts", postService.getPostByKeyWord(search, startDate, endDate));
             } else if (popular) {
-                System.out.println(startDate + " " + endDate);
-                List<Post> postsList = postService.getPostByKeyWordWithPoints(search, startDate, endDate);
-                model.addAttribute("postslist", postsList);
+                model.addAttribute("posts", postService.getPostByKeyWordWithPoints(search, startDate, endDate));
             }
         }
         return "search";

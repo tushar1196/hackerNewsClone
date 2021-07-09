@@ -36,10 +36,6 @@ public class Comment {
             joinColumns = {@JoinColumn(name = "comment_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
-//    @ManyToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-//    @JoinTable(name = "answer_vote_up",
-//            joinColumns = @JoinColumn(name = "answer_id"),
-//            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> usersVotedUp;
 
     public List<User> getUsersVotedUp() {

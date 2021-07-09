@@ -60,7 +60,6 @@ public class User {
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-//                ", isVoted=" + isVoted +
                 ", role='" + role + '\'' +
                 '}';
     }

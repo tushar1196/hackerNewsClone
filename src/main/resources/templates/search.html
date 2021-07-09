@@ -14,7 +14,6 @@
          .anchorTag {
         color:FireBrick;
         }
-
     </style>
 </head>
 <body>
@@ -38,28 +37,31 @@
                     <option th:value="date">date</option>
                 </select>
                 <label>from</label>
-                <input type="datetime-local" th:name="startdatetime" placeholder=" "/>
+                <input type="datetime-local" th:name="startDateTime" placeholder=" "/>
                 <label>to</label>
-                <input type="datetime-local" th:name="enddatetime" placeholder=" "/>
+                <input type="datetime-local" th:name="endDateTime" placeholder=" "/>
                 <input type="submit" value="Apply">
             </form>
         </div>
         <hr style="color:MidnightBlue">
-        <div th:each="post: ${postslist}">
+        <div th:each="post: ${posts}">
             <h2>
                 <a th:if="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                    th:href="${post.url}"></a>
                 <a th:unless="${#strings.startsWith(post.title,'Show HN:')}" th:text="${post.title}"
                    th:href="@{'/post/' + ${post.id}}"></a>
             </h2>
-            <span th:text="${post.points}+ ' points' + ' created by: ' + ${post.userName} + ' created At : ' +${post.createdAt}"></span><br>
+            <span th:text="${post.points}+ ' points' + ' created by: ' + ${post.userName} + ' created At : '
+            +${post.createdAt}"></span><br>
             <a class="anchorTag" th:href="@{'/upvote/'+${post.id}}">UpVote</a>&ensp;|&ensp;
             <a class="anchorTag" th:href="@{'/downvote/'+${post.id}}">DownVote</a>&ensp;|
             <a class="anchorTag" th:href="@{'/post/'+${post.id}}"> Comment</a>
             <hr style="color:MidnightBlue">
         </div>
         <div th:each="comm: ${comments}">
-            <p th:text="${comm.description}"></p>
+            <h3 th:text="${comm.description}"></h3><br>
+            <span th:text="'Posted By:- '+ ${comm.name}+'Created At:- '+${comm.createdAt}"></span>
+            <hr style="color:MidnightBlue">
         </div>
     </div>
     <br><br>
