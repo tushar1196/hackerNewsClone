@@ -33,7 +33,6 @@ public class ReplyController {
         Reply reply = new Reply();
         model.addAttribute("comment", commentService.getCommentById(commentId));
         model.addAttribute("saveOrUpdate", "save");
-        System.out.println(":::::::::::::::::::::::::::::::"+postId);
         model.addAttribute("postId", postId);
         model.addAttribute("helperReply", reply);
 

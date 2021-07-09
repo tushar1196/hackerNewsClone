@@ -170,7 +170,6 @@ public class PostController {
         model.addAttribute("sortDirection", sortDirection);
         model.addAttribute("reverseSortDirection", sortDirection.equals("asc") ? "desc" : "asc");
         model.addAttribute("posts", posts);
-        System.out.println(">>>>>>>>>>>>>>>>>>>>>"+posts);
         if (authentication != null) {
             User user = userService.findByEmail(authentication.getName());
             if (user.getRole().equals("ROLE_ADMIN")) {
@@ -187,7 +186,7 @@ public class PostController {
     @GetMapping("/search")
     public String search(@RequestParam("search") String keyWord, Model model) {
         model.addAttribute("search", keyWord);
-//        model.addAttribute("comments", commentService.getCommentsByKeyWord(keyWord, "", ""));
+        model.addAttribute("comments", commentService.getCommentsByKeyWord(keyWord, "", ""));
         model.addAttribute("posts", postService.getPostByKeyWord(keyWord, "", ""));
         return "search";
     }
