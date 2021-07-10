@@ -61,7 +61,7 @@
                     </a>
                 </td>
                 <td>
-                    <div th:if="${comment.name==user.name}">
+                    <div th:if="${comment.name==user.name or user.role=='ROLE_ADMIN'}">
                         <form action="#" th:action="@{'/updateCommentForm/'+${comment.id}+'/'+${post.id}}"
                               th:method="get">
                             <input class="update" type="submit" value="Update Comment"> &ensp;
@@ -69,7 +69,7 @@
                     </div>
                 </td>
                 <td>
-                    <div th:if="${comment.name==user.name}">
+                    <div th:if="${comment.name==user.name or user.role=='ROLE_ADMIN'}">
                         <form action="#" th:action="@{'/delete/'+${comment.id}+'/'+${post.id}}" th:method="post">
                             <input class="delete" type="submit" value="Delete Comment"> &ensp;
                         </form>
