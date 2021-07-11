@@ -159,7 +159,7 @@ public class PostController {
                                 @RequestParam("sortField") String sortField,
                                 @RequestParam("sortDirection") String sortDirection, Model model,
                                 Authentication authentication, String nonUser) {
-        int pageSize = 10;
+        int pageSize = 5;
         Page<Post> page = postService.findPaginated(pageNo, pageSize, sortField, sortDirection);
         List<Post> posts = page.getContent();
 
