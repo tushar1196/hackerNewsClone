@@ -30,6 +30,7 @@ public class CommentServiceImpl implements CommentService {
     @Override
     public void updateCommentById(Comment comment, Integer commentId) {
         Timestamp instant = Timestamp.from(Instant.now());
+        comment.setCreatedAt(instant);
         comment.setUpdatedAt(instant);
         commentRepository.save(comment);
     }

@@ -22,10 +22,9 @@
         Comment:- <span th:text="${comment.description}"></span>
 
         <form action="#" th:action="@{/addReply/{id}(id=${postId})}" th:object="${helperReply}" th:method="post">
-           <input type="hidden" th:text="${postId}">
-           post id <span th:text="${postId}"></span>
-            <input type="hidden" th:field="*{id}">
-            <input type="hidden" th:name="commentId" th:value="${comment.id}">
+            <span th:text="${postId}" hidden></span>
+            <input type="hidden" th:field="*{id}" hidden>
+            <input type="hidden" th:name="commentId" th:value="${comment.id}" hidden>
             <input type="hidden" th:name="saveorupdate" th:value="${saveOrUpdate}"><br><br>
 
             <textarea rows="10" cols="111" th:field="*{description}" placeholder="Enter Reply"
